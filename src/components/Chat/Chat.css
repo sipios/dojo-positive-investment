@@ -1,0 +1,13 @@
+.Chat {
+  width: 60%;
+  background: #dcdde0;
+}
+
+.bubble-container {
+  height: 80vh;
+}
+
+.bubble-container .input-wrap textarea {
+  margin: 0;
+  width: calc(100% - 30px);
+}
