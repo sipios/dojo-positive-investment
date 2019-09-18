@@ -101,7 +101,7 @@ export class Chat extends Component<Props, State> {
           {
             id: "animals",
             message:
-              "Souhaitez vous protéger les animaux ? Que ce soit des caniches ou des chiuaua, ils ont besoin de vous !",
+              "Souhaitez vous protéger les animaux ? Que ce soit des caniches ou des chihuahua, ils ont besoin de vous !",
             trigger: "animals-choice"
           },
           {
@@ -135,7 +135,7 @@ export class Chat extends Component<Props, State> {
             options: [
               {
                 value: -1,
-                label: "Brulons-la !!!! 🔥🔥🔥🔥🔥",
+                label: "🔥🔥🔥 Brulons-les ! 🔥🔥🔥",
                 trigger: "climate"
               },
               {
@@ -145,7 +145,7 @@ export class Chat extends Component<Props, State> {
               },
               {
                 value: 1,
-                label: "Oui, plantons des arbres 🌲🌳🌴🎄",
+                label: "🌲🌳 Oui, plantons des arbres 🌴🎄",
                 trigger: "climate"
               }
             ]
@@ -160,7 +160,7 @@ export class Chat extends Component<Props, State> {
             options: [
               {
                 value: -1,
-                label: "Non, détruisons-le 🌪🚗🚚🏎✈️🔥",
+                label: "🌪🚗🚚 Non, détruisons-le 🏎✈️🔥",
                 trigger: "energy"
               },
               {
@@ -171,7 +171,7 @@ export class Chat extends Component<Props, State> {
               {
                 value: 1,
                 label:
-                  "Oui, je veux faire des investissements repsonsable 🚵‍♀🥦⛵️️",
+                  "🚵‍♀🥦 Oui, je veux faire des investissements repsonsable ⛵🌎️️",
                 trigger: "energy"
               }
             ]
@@ -186,7 +186,7 @@ export class Chat extends Component<Props, State> {
             options: [
               {
                 value: -1,
-                label: "Non, ca marche bien le pétrole 🛢🛢🛢🛢🛢",
+                label: "🛢🛢🛢 Non, ca marche bien le pétrole 🛢🛢🛢",
                 trigger: "education"
               },
               {
@@ -196,7 +196,7 @@ export class Chat extends Component<Props, State> {
               },
               {
                 value: 1,
-                label: "Bien sur, sauvons la planète ☀️☀️☀️☀️☀️",
+                label: "⚡️⚡️⚡️ Bien sur, sauvons la planète ️☀️☀️☀️",
                 trigger: "education"
               }
             ]
