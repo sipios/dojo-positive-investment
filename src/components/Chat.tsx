@@ -22,6 +22,7 @@ export class Chat extends Component<Props, State> {
       forest: steps["forest-choice"]["value"],
       climate: steps["climate-choice"]["value"],
       energy: steps["energy-choice"]["value"],
+      equality: steps["equality-choice"]["value"],
       education: steps["education-choice"]["value"]
     };
 
@@ -95,13 +96,13 @@ export class Chat extends Component<Props, State> {
           },
           {
             id: "choice",
-            message: "Regardons les thématiques qui vous intéresses.",
+            message: "Regardons les thématiques qui vous intéressent.",
             trigger: "animals"
           },
           {
             id: "animals",
             message:
-              "Souhaitez vous protéger les animaux ? Que ce soit des caniches ou des chihuahua, ils ont besoin de vous !",
+              "Souhaitez-vous protéger les animaux ? Que ce soit des caniches ou des chihuahuas, ils ont besoin de vous !",
             trigger: "animals-choice"
           },
           {
@@ -114,7 +115,7 @@ export class Chat extends Component<Props, State> {
               },
               {
                 value: 0,
-                label: "Je m'en fiche",
+                label: "Une prochaîne fois",
                 trigger: "forest"
               },
               {
@@ -127,7 +128,7 @@ export class Chat extends Component<Props, State> {
           {
             id: "forest",
             message:
-              "Souhaitez vous protéger les forêts, les poumons de notre planete ?",
+              "Souhaitez-vous protéger les forêts, les poumons de notre planète ?",
             trigger: "forest-choice"
           },
           {
@@ -140,7 +141,7 @@ export class Chat extends Component<Props, State> {
               },
               {
                 value: 0,
-                label: "Je m'en fiche",
+                label: "J'ai d'autres priorités",
                 trigger: "climate"
               },
               {
@@ -152,7 +153,7 @@ export class Chat extends Component<Props, State> {
           },
           {
             id: "climate",
-            message: "Souhaitez vous agir pour protéger le climat ?",
+            message: "Souhaitez-vous agir pour protéger le climat ?",
             trigger: "climate-choice"
           },
           {
@@ -160,25 +161,26 @@ export class Chat extends Component<Props, State> {
             options: [
               {
                 value: -1,
-                label: "🌪🚗🚚 Non, détruisons-le 🏎✈️🔥",
+                label:
+                  "🌪🚗🚚 Non, j'adore les pailles en plastique et rouler en 4x4 🏎✈️🔥",
                 trigger: "energy"
               },
               {
                 value: 0,
-                label: "Je m'en fiche",
+                label: "On verra demain",
                 trigger: "energy"
               },
               {
                 value: 1,
                 label:
-                  "🚵‍♀🥦 Oui, je veux faire des investissements repsonsable ⛵🌎️️",
+                  "🚵‍♀🥦 Oui, je veux faire des investissements responsables ⛵🌎️️",
                 trigger: "energy"
               }
             ]
           },
           {
             id: "energy",
-            message: "Souhaitez vous développer les énergies renouvelables?",
+            message: "Souhaitez-vous développer les énergies renouvelables?",
             trigger: "energy-choice"
           },
           {
@@ -187,6 +189,32 @@ export class Chat extends Component<Props, State> {
               {
                 value: -1,
                 label: "🛢🛢🛢 Non, ca marche bien le pétrole 🛢🛢🛢",
+                trigger: "equality"
+              },
+              {
+                value: 0,
+                label: "Tant que ca ne baisse pas le rendement",
+                trigger: "equality"
+              },
+              {
+                value: 1,
+                label:
+                  "⚡️⚡️⚡️ Bien sur, Let's make America Greta again ️☀️☀️☀️",
+                trigger: "equality"
+              }
+            ]
+          },
+          {
+            id: "equality",
+            message: "Souhaitez-vous développer l'égalité homme-femme",
+            trigger: "equality-choice"
+          },
+          {
+            id: "equality-choice",
+            options: [
+              {
+                value: -1,
+                label: "🧐🧐🧐 Non, c´était mieux au 19eme siècle 🎩🎩🎩",
                 trigger: "education"
               },
               {
@@ -196,7 +224,7 @@ export class Chat extends Component<Props, State> {
               },
               {
                 value: 1,
-                label: "⚡️⚡️⚡️ Bien sur, sauvons la planète ️☀️☀️☀️",
+                label: "👨‍🎨👩‍🎨👨‍🎨 Oui ! Travaillons ensemble 👩‍💻👨‍💻️👩‍💻",
                 trigger: "education"
               }
             ]
@@ -204,7 +232,7 @@ export class Chat extends Component<Props, State> {
           {
             id: "education",
             message:
-              "Souhaitez vous favoriser l'éducation ? Rendre les études accessibles à tous",
+              "Souhaitez vous favoriser l'éducation et rendre les études accessibles à tous ?",
             trigger: "education-choice"
           },
           {
@@ -213,7 +241,7 @@ export class Chat extends Component<Props, State> {
               {
                 value: -1,
                 label:
-                  "Non, il parrait que ca sert à rien les maths de toute façon 🤦‍♂️",
+                  "Non, encore aujourd'hui je n'ai pas utilisé le théoreme de Pythagore 🤦‍♂️",
                 trigger: this.getFunds
               },
               {
