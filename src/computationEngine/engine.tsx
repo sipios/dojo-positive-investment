@@ -112,11 +112,11 @@ const computeFundsExpectationArray = (): ExpectationArray => {
     response.total.efficiency = computePortfolioEfficiency(expectationArray, portfolioAllocation);
     response.total.volatility = computePortfolioVolatility(covariance, portfolioAllocation);
 
-    response.graph.meanEvolution = Array.from(response.graph.years,
+    response.graph.meanEvolution = response.graph.years.map(
       (year: number): number => initialAmount * Math.pow(response.total.efficiency, year));
-    response.graph.optimisticEvolution = Array.from(response.graph.years,
+    response.graph.optimisticEvolution = response.graph.years.map(
       (year: number): number => initialAmount * Math.pow(response.total.efficiency + response.total.volatility, year));
-    response.graph.pessimisticEvolution = Array.from(response.graph.years,
+    response.graph.pessimisticEvolution = response.graph.years.map(
       (year: number): number => initialAmount * Math.pow(response.total.efficiency - response.total.volatility, year));
     
     response.portfolioContent = Array.from(portfolioAllocation,
