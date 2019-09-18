@@ -1,5 +1,11 @@
-import React, { Component } from "react";
-import ChatBot from "react-simple-chatbot";
+import React, { Component } from 'react';
+import ChatBot from 'react-simple-chatbot';
+
+import { Result, ResultData } from './Result';
+
+const theme = {
+  fontFamily: 'Helvetica Neue',
+};
 
 interface State {
   funds?: any; //to type
@@ -58,6 +64,8 @@ export class Chat extends Component<Props, State> {
   render() {
     return (
       <ChatBot
+        width="80vw"
+        style={theme}
         steps={[
           {
             id: "intro-1",
@@ -276,10 +284,61 @@ export class Chat extends Component<Props, State> {
           {
             id: "end",
             message: "Bon choix !",
+            trigger: "result"
+          },
+          {
+            id: "result",
+            component: <Result {...resultData} />,
+            asMessage: true,
             end: true
           }
         ]}
       />
     );
   }
+}
+
+const resultData: ResultData = {
+  total: {
+    efficiency: 10,
+    volatility: 10
+  },
+  graph: {
+    years: [2019, 2020, 2021, 2022, 2023],
+    meanEvolution: [10, 10, 10, 10, 10],
+    optimisticEvolution: [7, 8, 5, 6, 7],
+    pessimisticEvolution: [12, 13, 14, 13, 12],
+  },
+  portfolio: [
+    {
+      fund: {
+        isin: '001',
+        name: 'fond 1',
+        history: [],
+        externalities: [],
+        description: 'Fond 1 desc'
+      },
+      weight: 0.5
+    },
+    {
+      fund: {
+        isin: '002',
+        name: 'fond 2',
+        history: [],
+        externalities: [],
+        description: 'Fond 2 desc'
+      },
+      weight: 0.3
+    },
+    {
+      fund: {
+        isin: '003',
+        name: 'fond 3',
+        history: [],
+        externalities: [],
+        description: 'Fond 3 desc'
+      },
+      weight: 0.2
+    }
+  ]
 }
