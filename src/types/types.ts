@@ -5,7 +5,7 @@ export interface Externality {
     score: number
 };
 
-export type Externalities = Array<Externality>;
+export type Externalities = Externality[];
 
 export type UserChoice = {
     [name in ExternalityName]: {
@@ -16,18 +16,18 @@ export type UserChoice = {
 export interface Fund {
     isin: number,
     name: string,
-    history: Array<number>,
+    history: number[],
     externalities: Externalities,
     description: string
 }
 
-export type Funds = Array<Fund>;
+export type Funds = Fund[];
 
-export type Expectation = Array<number>;
+export type ExpectationArray = number[];
 
-export type CovarianceMatrix = Array<Array<number>>;
+export type CovarianceMatrix = number[][];
 
-export type Portfolio = Array<number>;
+export type Portfolio = number[];
 
 export interface PortfolioContentObject {
     fund: Fund,
@@ -40,10 +40,10 @@ export interface Response {
       volatility: number,
     },
     graph: {
-      years: Array<number>,
-      meanEvolution: Array<number>,
-      optimisticEvolution: Array<number>,
-      pessimisticEvolution: Array<number>,
+      years: number[],
+      meanEvolution: number[],
+      optimisticEvolution: number[],
+      pessimisticEvolution: number[],
     },
-    portfolioContent: Array<PortfolioContentObject>,
+    portfolioContent: PortfolioContentObject[],
   };
