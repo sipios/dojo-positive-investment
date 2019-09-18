@@ -1,12 +1,12 @@
 let PortfolioAllocation = require('portfolio-allocation');
 
 import { fundsArray } from './constants';
-import { Externality, UserChoice, Fund, Expectation, CovarianceMatrix, Portfolio, Response, PortfolioContentObject } from '../types/types';
+import { Externality, UserChoice, Fund, ExpectationArray, CovarianceMatrix, Portfolio, Response, PortfolioContentObject } from '../types/types';
 
 const EXPECTATION_MULTIPLIER_BASE_IN_PERCENT = 0.1 / 100;
 const NUMBER_OF_YEARS = 15;
 
-const computeFundsExpectationArray = (): Expectation => {
+const computeFundsExpectationArray = (): ExpectationArray => {
     const expectationArray = fundsArray.map(
         (fund: Fund): number => (
             fund.history.reduce(
@@ -31,11 +31,11 @@ const computeFundsExpectationArray = (): Expectation => {
     return covarianceXY;
   }
 
-  const computeFundsCovarianceArray = (expectation: Expectation): CovarianceMatrix => {
+  const computeFundsCovarianceArray = (expectationArray: ExpectationArray): CovarianceMatrix => {
     let covariance: Array<Array<number>> = [];
     for (let i=0; i<fundsArray.length -1; i++) {
       for (let j=i; j<fundsArray.length -1; j++) {
-        covariance[i][j] = computeCovarianceXY(fundsArray[i].history, fundsArray[j].history, expectation[i], expectation[j]);
+        covariance[i][j] = computeCovarianceXY(fundsArray[i].history, fundsArray[j].history, expectationArray[i], expectationArray[j]);
       }
       for (let j=0; j<i; j++) {
         covariance[i][j] = covariance[j][i];
@@ -46,7 +46,7 @@ const computeFundsExpectationArray = (): Expectation => {
     return covariance;
   };
 
-  const computeExpectationMultiplierArray = (userChoice: UserChoice): Expectation => {
+  const computeExpectationMultiplierArray = (userChoice: UserChoice): ExpectationArray => {
 
 
     return fundsArray.map((fund: Fund): number =>
@@ -56,7 +56,7 @@ const computeFundsExpectationArray = (): Expectation => {
     );
   };
 
-  const computeAdaptedExpectationArray = (expectationArray: Expectation, expectationMultiplierArray: Expectation): Expectation => {
+  const computeAdaptedExpectationArray = (expectationArray: ExpectationArray, expectationMultiplierArray: ExpectationArray): ExpectationArray => {
 
 
     return expectationArray.map((expectationValue: number, index: number): number => {
@@ -65,7 +65,7 @@ const computeFundsExpectationArray = (): Expectation => {
     );
   };
 
-  const computePortfolioAllocation = (expectationArray: Expectation, covariance: CovarianceMatrix, userChoice: UserChoice, maxVolatility: number): Portfolio => {
+  const computePortfolioAllocation = (expectationArray: ExpectationArray, covariance: CovarianceMatrix, userChoice: UserChoice, maxVolatility: number): Portfolio => {
     const expectationMultiplierArray = computeExpectationMultiplierArray(userChoice);
     const adaptedExpectationArray = computeAdaptedExpectationArray(expectationArray, expectationMultiplierArray);
 
@@ -77,7 +77,7 @@ const computeFundsExpectationArray = (): Expectation => {
     return portfolioAllocation;
   };
 
-  const computePortfolioEfficiency = (expectationArray: Expectation, portfolioAllocation: Portfolio): number => {
+  const computePortfolioEfficiency = (expectationArray: ExpectationArray, portfolioAllocation: Portfolio): number => {
 
 
     return expectationArray.reduce((totalEfficiency: number, expectation: number, index: number): number =>
@@ -95,7 +95,7 @@ const computeFundsExpectationArray = (): Expectation => {
     return volatility;
   }
 
-  const computeChatbotResponse = (expectationArray: Expectation, covariance: CovarianceMatrix, portfolioAllocation: Portfolio, initialAmount: number): Response => {
+  const computeChatbotResponse = (expectationArray: ExpectationArray, covariance: CovarianceMatrix, portfolioAllocation: Portfolio, initialAmount: number): Response => {
     const response: Response = {
       total: {
         efficiency: 0,
