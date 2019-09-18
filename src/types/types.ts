@@ -1,4 +1,4 @@
-export type externalityName = 'animals'|'forest';
+export type externalityName = 'animals'|'forest'|'climate'|'energy'|'education'|'equality';
 
 export interface externality {
     name: externalityName,
