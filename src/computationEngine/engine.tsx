@@ -15,7 +15,7 @@ const computeFundsExpectationArray = (): ExpectationArray => {
                 )
             )
         )
-    )
+    );
 
 
     return expectationArray;
