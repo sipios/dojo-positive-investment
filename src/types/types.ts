@@ -1,40 +1,40 @@
-export type externalityName = 'animals'|'forest'|'climate'|'energy'|'education'|'equality';
+export type ExternalityName = 'animals'|'forest'|'climate'|'energy'|'education'|'equality';
 
-export interface externality {
-    name: externalityName,
+export interface Externality {
+    name: ExternalityName,
     score: number
 };
 
-export type externalities = Array<externality>;
+export type Externalities = Array<Externality>;
 
-export type userChoice = {
-    [name in externalityName]: {
+export type UserChoice = {
+    [name in ExternalityName]: {
         value: number;
     };
 };;
 
-export interface fund {
+export interface Fund {
     isin: number,
     name: string,
     history: Array<number>,
-    externalities: externalities,
+    externalities: Externalities,
     description: string
 }
 
-export type funds = Array<fund>;
+export type Funds = Array<Fund>;
 
-export type expectation = Array<number>;
+export type Expectation = Array<number>;
 
-export type covarianceMatrix = Array<Array<number>>;
+export type CovarianceMatrix = Array<Array<number>>;
 
-export type portfolio = Array<number>;
+export type Portfolio = Array<number>;
 
-export interface portfolioContentObject {
-    fund: fund,
+export interface PortfolioContentObject {
+    fund: Fund,
     weight: number
 }
 
-export interface response {
+export interface Response {
     total: {
       efficiency: number,
       volatility: number,
@@ -45,5 +45,5 @@ export interface response {
       optimisticEvolution: Array<number>,
       pessimisticEvolution: Array<number>,
     },
-    portfolioContent: Array<portfolioContentObject>,
+    portfolioContent: Array<PortfolioContentObject>,
   };
