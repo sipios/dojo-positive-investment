@@ -3,7 +3,6 @@ import ChatBot from "react-simple-chatbot";
 
 interface State {
   funds?: any; //to type
-  initialInvestment?: number;
 }
 
 interface Props {}
@@ -30,8 +29,7 @@ export class Chat extends Component<Props, State> {
     const initialInvestment = Number(steps["investment-choice"]["value"]);
 
     this.setState({
-      funds: fun(userPreferences, volatility),
-      initialInvestment
+      funds: fun(userPreferences, volatility)
     });
 
     return "end";
