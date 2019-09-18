@@ -217,7 +217,7 @@ export class Chat extends Component<Props, State> {
               },
               {
                 value: 0,
-                label: "Je m'en fiche",
+                label: "Une prochaîne fois",
                 trigger: "education"
               },
               {
@@ -244,7 +244,7 @@ export class Chat extends Component<Props, State> {
               },
               {
                 value: 0,
-                label: "Je m'en fiche",
+                label: "On verra demain",
                 trigger: this.getFunds
               },
               {
