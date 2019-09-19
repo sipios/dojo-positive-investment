@@ -1,4 +1,4 @@
-import { EXPECTATION_MULTIPLIER_BASE_IN_PERCENT, fundsArray, NUMBER_OF_YEARS } from './constants';
+import { EXPECTATION_MULTIPLIER_BASE_IN_PERCENT, fundsArray, NUMBER_OF_MONTHS } from './constants';
 import {
   Externality,
   UserChoice,
@@ -12,15 +12,27 @@ import {
 
 let PortfolioAllocation = require('portfolio-allocation');
 
-const computeFundsExpectationArray = (): ExpectationArray => {
-  const expectationArray = fundsArray.map((fund: Fund): number =>
-    fund.history.reduce(
-      (averageRate: number, currentRate: number, currentIndex: number) =>
-        (averageRate * currentIndex) / (currentIndex + 1) + currentRate / (currentIndex + 1),
-    ),
-  );
+const computeFundRateReturnHistory = (fund: Fund): Array<number> => {
+  const rateReturnArray = fund.history.slice(1).map((currentValue, index) => {
+    const previousValue = fund.history[index];
+    return (currentValue - previousValue) / previousValue;
+  });
 
-  return expectationArray;
+  return rateReturnArray;
+};
+
+const computeFundsRateReturnExpectationArray = (): ExpectationArray => {
+  const computeSingleFundRateReturnExpectation = (fundRateReturnHistory: Array<number>): number => {
+    return fundRateReturnHistory.reduce((expectation, rate) => expectation + rate, 0) / fundRateReturnHistory.length;
+  };
+  const rateReturnHistoryArray: Array<Array<number>> = fundsArray.map(
+    (fund: Fund): ExpectationArray => computeFundRateReturnHistory(fund),
+  );
+  const rateReturnExpectationArray = rateReturnHistoryArray.map((rateReturnHistory: Array<number>): number =>
+    computeSingleFundRateReturnExpectation(rateReturnHistory),
+  );
+  console.log(rateReturnExpectationArray);
+  return rateReturnExpectationArray;
 };
 
 const computeCovarianceXY = (
@@ -30,65 +42,72 @@ const computeCovarianceXY = (
   expectationY: number,
 ): number => {
   const startIndex: number = Math.max(X.length, Y.length) - Math.min(X.length, Y.length);
-  let normalizedX: Array<number> = [];
-  let normalizedY: Array<number> = [];
+  let centeredX: Array<number> = [];
+  let centeredY: Array<number> = [];
   if (X.length < Y.length) {
-    normalizedX = X.map((value: number): number => value / expectationX);
-    normalizedY = Y.slice(startIndex).map((value: number): number => value / expectationY);
+    centeredX = X.map((value: number): number => value - expectationX);
+    centeredY = Y.slice(startIndex).map((value: number): number => value - expectationY);
   } else if (Y.length < X.length) {
-    normalizedX = X.slice(startIndex).map((value: number): number => value / expectationX);
-    normalizedY = Y.map((value: number): number => value / expectationY);
+    centeredX = X.slice(startIndex).map((value: number): number => value - expectationX);
+    centeredY = Y.map((value: number): number => value - expectationY);
   } else {
-    normalizedX = X.map((value: number): number => value / expectationX);
-    normalizedY = Y.map((value: number): number => value / expectationY);
+    centeredX = X.map((value: number): number => value - expectationX);
+    centeredY = Y.map((value: number): number => value - expectationY);
   }
   const covarianceXY =
-    normalizedX.reduce(
-      (totalSum: number, normalizedXValue: number, index: number): number =>
-        totalSum + normalizedXValue * normalizedY[index],
+    centeredX.reduce(
+      (totalSum: number, centeredXValue: number, index: number): number => totalSum + centeredXValue * centeredY[index],
+      0,
     ) /
-    (normalizedX.length - 1);
+    (centeredX.length - 1);
 
   return covarianceXY;
 };
 
-const computeFundsCovarianceArray = (expectationArray: ExpectationArray): CovarianceMatrix => {
-  let covariance: Array<Array<number>> = [[]];
+const computeFundsRateReturnCovarianceMatrix = (rateReturnExpectationArray: ExpectationArray): CovarianceMatrix => {
+  const rateReturnHistoryArray: Array<Array<number>> = fundsArray.map(
+    (fund: Fund): ExpectationArray => computeFundRateReturnHistory(fund),
+  );
+  let covarianceMatrix: Array<Array<number>> = [[]];
   for (let i = 0; i < fundsArray.length; i++) {
     for (let j = i; j < fundsArray.length; j++) {
-      covariance[i][j] = computeCovarianceXY(
-        fundsArray[i].history,
-        fundsArray[j].history,
-        expectationArray[i],
-        expectationArray[j],
+      covarianceMatrix[i][j] = computeCovarianceXY(
+        rateReturnHistoryArray[i],
+        rateReturnHistoryArray[j],
+        rateReturnExpectationArray[i],
+        rateReturnExpectationArray[j],
       );
     }
     for (let j = 0; j < i; j++) {
-      covariance[i][j] = covariance[j][i];
+      covarianceMatrix[i][j] = covarianceMatrix[j][i];
     }
   }
 
-  return covariance;
+  return covarianceMatrix;
 };
 
-const computeExpectationMultiplierArray = (userChoice: UserChoice): ExpectationArray => {
+const computeRateReturnExpectationMultiplierArray = (userChoice: UserChoice): ExpectationArray => {
+  const getFundAdequationWithUserPreferenceFactor = (fund: Fund): number => {
+    return fund.externalities.reduce(
+      (totalExternalityValue: number, externality: Externality): number =>
+        totalExternalityValue + externality.score * userChoice[externality.name].value,
+      0,
+    );
+  };
+
   return fundsArray.map(
-    (fund: Fund): number =>
-      fund.externalities.reduce(
-        (totalExternalityValue: number, externality: Externality): number =>
-          totalExternalityValue + externality.score * userChoice[externality.name].value,
-        0,
-      ) * EXPECTATION_MULTIPLIER_BASE_IN_PERCENT,
+    (fund: Fund): number => getFundAdequationWithUserPreferenceFactor(fund) * EXPECTATION_MULTIPLIER_BASE_IN_PERCENT,
   );
 };
 
 const computeAdaptedExpectationArray = (
-  expectationArray: ExpectationArray,
-  expectationMultiplierArray: ExpectationArray,
+  rateReturnExpectationArray: ExpectationArray,
+  rateReturnExpectationMultiplierArray: ExpectationArray,
 ): ExpectationArray => {
-  return expectationArray.map((expectationValue: number, index: number): number => {
-    return expectationValue + Math.abs(expectationValue) * expectationMultiplierArray[index];
-  });
+  return rateReturnExpectationArray.map(
+    (expectationValue: number, index: number): number =>
+      expectationValue + Math.abs(expectationValue) * rateReturnExpectationMultiplierArray[index],
+  );
 };
 
 const computePortfolioAllocation = (
@@ -97,7 +116,7 @@ const computePortfolioAllocation = (
   userChoice: UserChoice,
   maxVolatility: number,
 ): Portfolio => {
-  const expectationMultiplierArray = computeExpectationMultiplierArray(userChoice);
+  const expectationMultiplierArray = computeRateReturnExpectationMultiplierArray(userChoice);
   const adaptedExpectationArray = computeAdaptedExpectationArray(expectationArray, expectationMultiplierArray);
 
   const portfolioAllocation = PortfolioAllocation.meanVarianceOptimizationWeights(adaptedExpectationArray, covariance, {
@@ -108,22 +127,26 @@ const computePortfolioAllocation = (
   return portfolioAllocation;
 };
 
-const computePortfolioEfficiency = (expectationArray: ExpectationArray, portfolioAllocation: Portfolio): number => {
+const computePortfolioRateReturn = (expectationArray: ExpectationArray, portfolioAllocation: Portfolio): number => {
   return expectationArray.reduce(
-    (totalEfficiency: number, expectation: number, index: number): number =>
-      totalEfficiency + expectation * portfolioAllocation[index],
+    (totalRateReturn: number, expectation: number, index: number): number =>
+      totalRateReturn + expectation * portfolioAllocation[index],
+    0,
   );
 };
 
-const computePortfolioVolatility = (covariance: CovarianceMatrix, portfolioAllocation: Portfolio): number => {
-  let volatility = 0;
-  for (let i = 0; i < covariance.length; i++) {
-    for (let j = 0; j < covariance.length; j++) {
-      volatility += covariance[i][j] * portfolioAllocation[i] * portfolioAllocation[j];
+const computePortfolioStandardDeviation = (
+  covarianceMatrix: CovarianceMatrix,
+  portfolioAllocation: Portfolio,
+): number => {
+  let variance = 0;
+  for (let i = 0; i < covarianceMatrix.length; i++) {
+    for (let j = 0; j < covarianceMatrix.length; j++) {
+      variance += covarianceMatrix[i][j] * portfolioAllocation[i] * portfolioAllocation[j];
     }
   }
 
-  return volatility;
+  return Math.sqrt(variance);
 };
 
 const computeChatbotResponse = (
@@ -134,29 +157,48 @@ const computeChatbotResponse = (
 ): Response => {
   const response: Response = {
     total: {
-      efficiency: 0,
-      volatility: 0,
+      rateReturn: 0,
+      standardDeviation: 0,
     },
     graph: {
-      years: Array.from(Array(NUMBER_OF_YEARS).keys()),
+      months: Array.from(Array(NUMBER_OF_MONTHS).keys()),
       meanEvolution: [],
       optimisticEvolution: [],
       pessimisticEvolution: [],
     },
     portfolioContent: [],
   };
-  response.total.efficiency = computePortfolioEfficiency(expectationArray, portfolioAllocation);
-  response.total.volatility = computePortfolioVolatility(covariance, portfolioAllocation);
+  response.total.rateReturn = computePortfolioRateReturn(expectationArray, portfolioAllocation);
+  response.total.standardDeviation = computePortfolioStandardDeviation(covariance, portfolioAllocation);
 
-  response.graph.meanEvolution = response.graph.years.map(
-    (year: number): number => initialAmount * Math.pow(1 + response.total.efficiency, year),
-  );
-  response.graph.optimisticEvolution = response.graph.years.map(
-    (year: number): number => initialAmount * Math.pow(1 + response.total.efficiency + response.total.volatility, year),
-  );
-  response.graph.pessimisticEvolution = response.graph.years.map(
-    (year: number): number => initialAmount * Math.pow(1 + response.total.efficiency - response.total.volatility, year),
-  );
+  if (1 + response.total.rateReturn) {
+    response.graph.meanEvolution = response.graph.months.map(
+      (year: number): number => initialAmount * Math.pow(1 + response.total.rateReturn, year),
+    );
+  } else {
+    response.graph.meanEvolution = Array(NUMBER_OF_MONTHS).fill(0);
+    response.graph.meanEvolution[0] = initialAmount;
+  }
+
+  if (1 + response.total.rateReturn + response.total.standardDeviation) {
+    response.graph.optimisticEvolution = response.graph.months.map(
+      (year: number): number =>
+        initialAmount * Math.pow(1 + response.total.rateReturn + response.total.standardDeviation, year),
+    );
+  } else {
+    response.graph.optimisticEvolution = Array(NUMBER_OF_MONTHS).fill(0);
+    response.graph.optimisticEvolution[0] = initialAmount;
+  }
+
+  if (1 + response.total.rateReturn - response.total.standardDeviation) {
+    response.graph.pessimisticEvolution = response.graph.months.map(
+      (year: number): number =>
+        initialAmount * Math.pow(1 + response.total.rateReturn - response.total.standardDeviation, year),
+    );
+  } else {
+    response.graph.pessimisticEvolution = Array(NUMBER_OF_MONTHS).fill(0);
+    response.graph.pessimisticEvolution[0] = initialAmount;
+  }
 
   response.portfolioContent = Array.from(
     portfolioAllocation,
@@ -169,8 +211,8 @@ const computeChatbotResponse = (
 };
 
 const computationEngine = (userChoice: UserChoice, maxVolatility: number, initialAmount: number): Response => {
-  const expectationArray = computeFundsExpectationArray();
-  const covariance = computeFundsCovarianceArray(expectationArray);
+  const expectationArray = computeFundsRateReturnExpectationArray();
+  const covariance = computeFundsRateReturnCovarianceMatrix(expectationArray);
   const portfolioAllocation = computePortfolioAllocation(expectationArray, covariance, userChoice, maxVolatility);
   const response = computeChatbotResponse(expectationArray, covariance, portfolioAllocation, initialAmount);
 

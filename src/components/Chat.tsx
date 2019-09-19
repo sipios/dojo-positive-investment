@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ChatBot from 'react-simple-chatbot';
+import computationEngine from '../computationEngine/engine';
 
 interface State {
   funds?: any; //to type
@@ -54,8 +55,28 @@ export class Chat extends Component<Props, State> {
 
     return 'end';
   };
-
+  userChoices = {
+    animals: {
+      value: 1,
+    },
+    forest: {
+      value: 1,
+    },
+    climate: {
+      value: 1,
+    },
+    energy: {
+      value: 1,
+    },
+    education: {
+      value: 1,
+    },
+    equality: {
+      value: 1,
+    },
+  };
   render() {
+    console.log(computationEngine(this.userChoices, 0.8, 10000));
     return (
       <ChatBot
         steps={[
