@@ -1,9 +1,16 @@
-export type ExternalityName = 'animals'|'forest'|'climate'|'energy'|'education'|'equality';
+export enum ExternalityName {
+    ANIMAL = 'animals',
+    FOREST = 'forest',
+    CLIMATE = 'climate',
+    ENERGY = 'energy',
+    EDUCATION = 'education',
+    EQUALITY = 'equality'
+}
 
 export interface Externality {
     name: ExternalityName,
     score: number
-};
+}
 
 export type Externalities = Externality[];
 
@@ -11,7 +18,7 @@ export type UserChoice = {
     [name in ExternalityName]: {
         value: number;
     };
-};;
+};
 
 export interface Fund {
     isin: number,
@@ -46,4 +53,4 @@ export interface Response {
       pessimisticEvolution: number[],
     },
     portfolioContent: PortfolioContentObject[],
-  };
+  }
