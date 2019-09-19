@@ -64,8 +64,6 @@ export class Chat extends Component<Props, State> {
       education: Number(steps["education-choice"]["value"])
     };
 
-    console.log(Number(steps["investment-choice"]["value"]));
-
     const volatility = Number(steps["risk-choice"]["value"]);
     const initialInvestment = Number(steps["investment-choice"]["value"]);
 
@@ -75,14 +73,10 @@ export class Chat extends Component<Props, State> {
       initialInvestment
     });
 
-    console.log(this.state.initialInvestment);
-
     return "loading";
   };
 
   render() {
-    console.log('re rendering');
-    console.log(this.state);
     return (
       <div className="chat">
         <ChatBot
