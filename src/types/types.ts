@@ -15,13 +15,11 @@ export interface Externality {
 export type Externalities = Externality[];
 
 export type UserChoice = {
-    [name in ExternalityName]: {
-        value: number;
-    };
+    [name in ExternalityName]: number;
 };
 
 export interface Fund {
-    isin: number,
+    isin: string,
     name: string,
     history: number[],
     externalities: Externalities,
@@ -41,16 +39,16 @@ export interface PortfolioContentObject {
     weight: number
 }
 
-export interface Response {
+export interface Result {
     total: {
-      efficiency: number,
-      volatility: number,
+        efficiency: number,
+        volatility: number,
     },
     graph: {
-      years: number[],
-      meanEvolution: number[],
-      optimisticEvolution: number[],
-      pessimisticEvolution: number[],
+        years: number[],
+        meanEvolution: number[],
+        optimisticEvolution: number[],
+        pessimisticEvolution: number[],
     },
     portfolioContent: PortfolioContentObject[],
-  }
+}

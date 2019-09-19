@@ -1,18 +1,14 @@
 import {
-  EXPECTATION_MULTIPLIER_BASE_IN_PERCENT,
-  fundsArray,
-  NUMBER_OF_YEARS
-} from "./constants";
-import {
-  Externality,
-  UserChoice,
-  Fund,
-  ExpectationArray,
   CovarianceMatrix,
+  ExpectationArray,
+  Externality,
+  Fund,
   Portfolio,
-  Response,
-  PortfolioContentObject
-} from "../types/types";
+  PortfolioContentObject,
+  Result,
+  UserChoice,
+} from '../types/types';
+import { EXPECTATION_MULTIPLIER_BASE_IN_PERCENT, fundsArray, NUMBER_OF_YEARS } from './constants';
 
 let PortfolioAllocation = require("portfolio-allocation");
 
@@ -73,7 +69,7 @@ const computeExpectationMultiplierArray = (
       fund.externalities.reduce(
         (totalExternalityValue: number, externality: Externality): number =>
           totalExternalityValue +
-          externality.score * userChoice[externality.name].value,
+          externality.score * userChoice[externality.name],
         0
       ) * EXPECTATION_MULTIPLIER_BASE_IN_PERCENT
   );
@@ -144,8 +140,8 @@ const computeChatbotResponse = (
   covariance: CovarianceMatrix,
   portfolioAllocation: Portfolio,
   initialAmount: number
-): Response => {
-  const response: Response = {
+): Result => {
+  const response: Result = {
     total: {
       efficiency: 0,
       volatility: 0
@@ -196,7 +192,7 @@ const computationEngine = (
   userChoice: UserChoice,
   maxVolatility: number,
   initialAmount: number
-): Response => {
+): Result => {
   const expectationArray = computeFundsExpectationArray();
   const covariance = computeFundsCovarianceArray(expectationArray);
   const portfolioAllocation = computePortfolioAllocation(
