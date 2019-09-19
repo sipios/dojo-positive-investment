@@ -295,7 +295,7 @@ export const fundsArray = [
       { name: ExternalityName.FOREST, score: -30 },
       { name: ExternalityName.ANIMAL, score: -10 }
     ],
-    description: "We develop, solar tech",
+    description: "We develop solar tech",
     history: [
       8.1,
       6.402,
@@ -712,7 +712,7 @@ export const fundsArray = [
       { name: ExternalityName.FOREST, score: 0 },
       { name: ExternalityName.ANIMAL, score: -90 }
     ],
-    description: "We make pharmaceutical drug",
+    description: "We make pharmaceutical drugs",
     history: [
       2.538234,
       2.361524,
@@ -1017,7 +1017,7 @@ export const fundsArray = [
       { name: ExternalityName.FOREST, score: -10 },
       { name: ExternalityName.ANIMAL, score: -40 }
     ],
-    description: "We make accessible to everybody",
+    description: "We make health accessible to everybody",
     history: [
       30.868017,
       33.366684,
@@ -3091,7 +3091,7 @@ export const fundsArray = [
       { name: ExternalityName.FOREST, score: 0 },
       { name: ExternalityName.ANIMAL, score: 0 }
     ],
-    description: "We basically dump gaz and oil in nature, because why not",
+    description: "We finance the french government",
     history: [
       1,
       1.0025,
