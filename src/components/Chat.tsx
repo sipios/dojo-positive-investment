@@ -7,36 +7,55 @@ interface State {
 
 interface Props {}
 
-const fun = (x: any, y: any) => x; // TO REPLACE BY THE CALL TOWARDS THE ENGINE
+interface UserPreferences {
+  [key: string]: number;
+}
+
+interface ChatData {
+  steps: Steps;
+}
+
+interface Steps {
+  "animals-choice": Step;
+  "forest-choice": Step;
+  "climate-choice": Step;
+  "energy-choice": Step;
+  "equality-choice": Step;
+  "education-choice": Step;
+  "risk-choice": Step;
+  "investment-choice": Step;
+}
+
+interface Step {
+  value: number | string;
+}
+
+const fun = (x: UserPreferences, y: number, z: number) => x; // TO REPLACE BY THE CALL TOWARDS THE ENGINE
 
 export class Chat extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
 
-  getFunds = ({ steps }: any) => {
-    const userPreferences: any = {
-      animals: steps["animals-choice"]["value"],
-      forest: steps["forest-choice"]["value"],
-      climate: steps["climate-choice"]["value"],
-      energy: steps["energy-choice"]["value"],
-      equality: steps["equality-choice"]["value"],
-      education: steps["education-choice"]["value"]
+  getFunds = ({ steps }: ChatData) => {
+    const userPreferences: UserPreferences = {
+      animals: Number(steps["animals-choice"]["value"]),
+      forest: Number(steps["forest-choice"]["value"]),
+      climate: Number(steps["climate-choice"]["value"]),
+      energy: Number(steps["energy-choice"]["value"]),
+      equality: Number(steps["equality-choice"]["value"]),
+      education: Number(steps["education-choice"]["value"])
     };
 
-    const volatility = steps["risk-choice"]["value"];
+    const volatility = Number(steps["risk-choice"]["value"]);
     const initialInvestment = Number(steps["investment-choice"]["value"]);
 
     this.setState({
-      funds: fun(userPreferences, volatility)
+      funds: fun(userPreferences, volatility, initialInvestment)
     });
 
     return "end";
   };
 
   render() {
-    console.log(this.state);
     return (
       <ChatBot
         steps={[
@@ -69,7 +88,7 @@ export class Chat extends Component<Props, State> {
           {
             id: "risk",
             message:
-              "Quel risque êtes vous prêt à prendre ? Plus le risque est élevé plus le gain potentiel l'est aussi.",
+              "Quel risque êtes-vous prêt à prendre ? Plus le risque est élevé plus le gain potentiel l'est aussi.",
             trigger: "risk-choice"
           },
           {
@@ -134,7 +153,7 @@ export class Chat extends Component<Props, State> {
             options: [
               {
                 value: -1,
-                label: "🔥🔥🔥 Brulons-les ! 🔥🔥🔥",
+                label: "🔥🔥🔥 Brûlons-les ! 🔥🔥🔥",
                 trigger: "climate"
               },
               {
@@ -204,7 +223,7 @@ export class Chat extends Component<Props, State> {
           },
           {
             id: "equality",
-            message: "Souhaitez-vous développer l'égalité homme-femme",
+            message: "Souhaitez-vous développer l'égalité homme-femme ?",
             trigger: "equality-choice"
           },
           {
@@ -230,7 +249,7 @@ export class Chat extends Component<Props, State> {
           {
             id: "education",
             message:
-              "Souhaitez vous favoriser l'éducation et rendre les études accessibles à tous ?",
+              "Souhaitez-vous favoriser l'éducation et rendre les études accessibles à tous ?",
             trigger: "education-choice"
           },
           {
@@ -239,7 +258,7 @@ export class Chat extends Component<Props, State> {
               {
                 value: -1,
                 label:
-                  "Non, encore aujourd'hui je n'ai pas utilisé le théoreme de Pythagore 🤦‍♂️",
+                  "Non, encore aujourd'hui je n'ai pas utilisé le théorème de Pythagore 🤦‍♂️",
                 trigger: this.getFunds
               },
               {
