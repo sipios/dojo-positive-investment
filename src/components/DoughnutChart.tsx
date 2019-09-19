@@ -2,13 +2,13 @@ import { ChartData } from 'chart.js';
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-import { PortfolioFund } from './Result';
+import { Result } from '../types/types';
 
 interface Props {
-  portfolio: PortfolioFund[]
+  portfolio: Result['portfolioContent']
 }
 
-const allColors = [
+const ALL_COLORS = [
   '#FF6384',
   '#36A2EB',
   '#FFCE56',
@@ -27,8 +27,8 @@ export class DoughnutChart extends React.Component<Props, ChartData> {
   }
 
   componentDidMount() {
-    const fundsNumber = this.props.portfolio.length;
-    const colors = allColors.slice(0, fundsNumber);
+    const fundsCount = this.props.portfolio.length;
+    const colors = ALL_COLORS.slice(0, fundsCount);
 
     this.setState({
       labels: this.props.portfolio.map(fund => fund.fund.name),
@@ -41,6 +41,6 @@ export class DoughnutChart extends React.Component<Props, ChartData> {
   }
 
   render() {
-    return <Doughnut data={this.state} />;
+    return <Doughnut legend={{ display: false }} width={800} height={500} data={this.state} />;
   }
 }

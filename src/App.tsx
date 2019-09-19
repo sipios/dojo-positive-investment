@@ -7,7 +7,7 @@ import { Chat } from './components/Chat';
 const App: React.FC = () => {
   return (
     <div className="App">
-      <h1>Positive Investment</h1>
+      <h1 className="title">Positive Investment</h1>
       <Chat />
     </div>
   );

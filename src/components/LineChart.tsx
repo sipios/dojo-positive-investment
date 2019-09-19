@@ -2,13 +2,13 @@ import { ChartData, ChartDataSets } from 'chart.js';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-import { ResultData } from './Result';
+import { Result } from '../types/types';
 
 interface Props {
-  graph: ResultData['graph']
+  graph: Result['graph']
 };
 
-const datasetSample: ChartDataSets = {
+const DATA_SET_SAMPLE: ChartDataSets = {
   fill: false,
   lineTension: 0.1,
   borderCapStyle: 'butt',
@@ -18,7 +18,7 @@ const datasetSample: ChartDataSets = {
   pointBackgroundColor: '#fff',
   pointBorderWidth: 1,
   pointHoverRadius: 5,
-  data: [0, 0, 0, 0, 0, 0, 0]
+  data: []
 }
 
 export class LineChart extends React.Component<Props, ChartData> {
@@ -26,7 +26,7 @@ export class LineChart extends React.Component<Props, ChartData> {
     super(props);
 
     this.state = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: [],
       datasets: []
     };
   }
@@ -34,7 +34,7 @@ export class LineChart extends React.Component<Props, ChartData> {
   componentDidMount() {
     const newDatasets = [
       {
-        ...datasetSample,
+        ...DATA_SET_SAMPLE,
         label: 'Evolution moyenne',
         data: this.props.graph.meanEvolution,
         backgroundColor: 'rgba(75,192,192,0.4)',
@@ -44,7 +44,7 @@ export class LineChart extends React.Component<Props, ChartData> {
         pointHoverBorderColor: 'rgba(220,220,220,1)',
       },
       {
-        ...datasetSample,
+        ...DATA_SET_SAMPLE,
         label: 'Evolution optimiste',
         data: this.props.graph.optimisticEvolution,
         backgroundColor: 'rgba(233, 62, 145, 0.4)',
@@ -54,7 +54,7 @@ export class LineChart extends React.Component<Props, ChartData> {
         pointHoverBorderColor: 'rgba(220,220,220,1)',
       },
       {
-        ...datasetSample,
+        ...DATA_SET_SAMPLE,
         label: 'Evolution pessimiste',
         data: this.props.graph.pessimisticEvolution,
         backgroundColor: 'rgba(0,204,102,0.4)',
@@ -72,6 +72,6 @@ export class LineChart extends React.Component<Props, ChartData> {
   }
 
   render() {
-    return <Line data={this.state} />;
+    return <Line width={800} height={500} data={this.state} />;
   }
 }
