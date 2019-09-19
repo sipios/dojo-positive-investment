@@ -1,7 +1,7 @@
 import { ExternalityName } from "../types/types";
 export const fundsArray = [
   {
-    isin: "AMZN",
+    isin: "A",
     name: "Forest corp.",
     externalities: [
       { name: ExternalityName.EDUCATION, score: -10 },
@@ -285,7 +285,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "BIDU",
+    isin: "B",
     name: "Solar inc.",
     externalities: [
       { name: ExternalityName.EDUCATION, score: 40 },
@@ -470,7 +470,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "AIR",
+    isin: "C",
     name: "Whales protection association",
     externalities: [
       { name: ExternalityName.EDUCATION, score: 20 },
@@ -702,7 +702,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "BNP",
+    isin: "D",
     name: "Jackson & Jackson",
     externalities: [
       { name: ExternalityName.EDUCATION, score: 50 },
@@ -1007,7 +1007,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "BUD",
+    isin: "E",
     name: "Health for all investments.",
     externalities: [
       { name: ExternalityName.EDUCATION, score: 20 },
@@ -1145,7 +1145,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "FB",
+    isin: "F",
     name: "Earth cleaner",
     externalities: [
       { name: ExternalityName.EDUCATION, score: -20 },
@@ -1249,7 +1249,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "FSLR",
+    isin: "G",
     name: "Clean air",
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
@@ -1419,7 +1419,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "LVMUY",
+    isin: "H",
     name: "Red skins hunter",
     externalities: [
       { name: ExternalityName.EDUCATION, score: -90 },
@@ -1430,7 +1430,7 @@ export const fundsArray = [
       { name: ExternalityName.ANIMAL, score: -100 }
     ],
     description:
-        "We hunt every types of animals, like elephants, leopards, and puppies",
+      "We hunt every types of animals, like elephants, leopards, and puppies",
     history: [
       12.555428,
       12.487194,
@@ -1600,7 +1600,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "MONSANTO",
+    isin: "I",
     name: "World company",
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
@@ -1822,7 +1822,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "ML",
+    isin: "J",
     name: "Green corp",
     externalities: [
       { name: ExternalityName.EDUCATION, score: 20 },
@@ -2054,7 +2054,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "SNE",
+    isin: "K",
     name: "Social goal",
     externalities: [
       { name: ExternalityName.EDUCATION, score: 90 },
@@ -2629,7 +2629,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "SPWR",
+    isin: "L",
     name: "Co2 destroyer",
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
@@ -2811,7 +2811,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "VOW3",
+    isin: "M",
     name: "Gaz dumper, corporation",
     externalities: [
       { name: ExternalityName.EDUCATION, score: -70 },
@@ -3081,7 +3081,7 @@ export const fundsArray = [
     ]
   },
   {
-    isin: "FRA",
+    isin: "N",
     name: "FRANCE Obligation",
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
