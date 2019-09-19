@@ -90,7 +90,7 @@ const computeRateReturnExpectationMultiplierArray = (userChoice: UserChoice): Ex
   const getFundAdequationWithUserPreferenceFactor = (fund: Fund): number => {
     return fund.externalities.reduce(
       (totalExternalityValue: number, externality: Externality): number =>
-        totalExternalityValue + externality.score * userChoice[externality.name].value,
+        totalExternalityValue + externality.score * userChoice[externality.name],
       0,
     );
   };
