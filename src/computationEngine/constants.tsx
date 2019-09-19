@@ -5,3 +5,7 @@ export const fundsArray = [{
     externalities: [],
     description: ""
 }];
+
+export const EXPECTATION_MULTIPLIER_BASE_IN_PERCENT = 0.1 / 100;
+
+export const NUMBER_OF_YEARS = 15;

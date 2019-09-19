@@ -1,10 +1,7 @@
 let PortfolioAllocation = require('portfolio-allocation');
 
-import { fundsArray } from './constants';
+import { EXPECTATION_MULTIPLIER_BASE_IN_PERCENT, fundsArray, NUMBER_OF_YEARS } from './constants';
 import { Externality, UserChoice, Fund, ExpectationArray, CovarianceMatrix, Portfolio, Response, PortfolioContentObject } from '../types/types';
-
-const EXPECTATION_MULTIPLIER_BASE_IN_PERCENT = 0.1 / 100;
-const NUMBER_OF_YEARS = 15;
 
 const computeFundsExpectationArray = (): ExpectationArray => {
     const expectationArray = fundsArray.map(
