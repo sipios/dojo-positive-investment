@@ -65,8 +65,10 @@ export class LineChart extends React.Component<Props, ChartData> {
       },
     ];
 
+    const currentYear = new Date().getFullYear();
+
     this.setState({
-      labels: this.props.graph.years.map(year => year + ''),
+      labels: this.props.graph.years.map(additionalYear => `${additionalYear + currentYear}`),
       datasets: newDatasets,
     });
   }
