@@ -7,8 +7,13 @@ import computationEngine from '../computationEngine/engine';
 
 import { Response } from '../types/types';
 import { UserChoice } from '../types/types';
-import { DoughnutChart } from './DoughnutChart';
-import { LineChart } from './LineChart';
+
+import {
+  DoughnutChartCustomComponent,
+  PortfolioSummaryComponent,
+  LineChartCustomComponent,
+  OrderBookCustomComponent,
+} from './Chat.custom-steps';
 
 const THEME = {
   fontFamily: 'Helvetica Neue',
@@ -325,7 +330,12 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'efficiency',
-              component: <div className="chart-wrapper">this is a test</div>,
+              component: (
+                <PortfolioSummaryComponent
+                  rateReturn={this.state.resultData.total.rateReturn}
+                  standardDeviation={this.state.resultData.total.standardDeviation}
+                />
+              ),
               asMessage: true,
               trigger: 'doughnut-1',
             },
@@ -336,11 +346,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'doughnut-2',
-              component: (
-                <div className="chart-wrapper">
-                  <DoughnutChart portfolio={this.state.resultData.portfolioContent} />
-                </div>
-              ),
+              component: <DoughnutChartCustomComponent portfolioContent={this.state.resultData.portfolioContent} />,
               asMessage: true,
               trigger: 'line-1',
             },
@@ -351,11 +357,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'line-2',
-              component: (
-                <div className="chart-wrapper">
-                  <LineChart graph={this.state.resultData.graph} />
-                </div>
-              ),
+              component: <LineChartCustomComponent graph={this.state.resultData.graph} />,
               asMessage: true,
               trigger: 'order-1',
             },
@@ -367,22 +369,10 @@ export class Chat extends Component<Props, State> {
             {
               id: 'order-2',
               component: (
-                <table className="order-book">
-                  <tbody>
-                    <tr>
-                      <th>Isin</th>
-                      <th>Fond</th>
-                      <th>Prix</th>
-                    </tr>
-                    {this.state.resultData.portfolioContent.map(({ fund, weight }, index: number) => (
-                      <tr key={index}>
-                        <td>{fund.isin}</td>
-                        <td>{fund.name}</td>
-                        <td>{weight * this.state.initialInvestment}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <OrderBookCustomComponent
+                  initialInvestment={this.state.initialInvestment}
+                  portfolioContent={this.state.resultData.portfolioContent}
+                />
               ),
               asMessage: true,
               end: true,
