@@ -1,14 +1,17 @@
+import './Chart.css';
+
 import React, { Component } from 'react';
 import ChatBot from 'react-simple-chatbot';
 
-import './Chart.css';
-
 import computationEngine from '../computationEngine/engine';
-
-import { Response } from '../types/types';
+import { ChatService } from '../services/chatService';
 import { UserChoice } from '../types/types';
-import { DoughnutChart } from './DoughnutChart';
-import { LineChart } from './LineChart';
+import {
+  DoughnutChartCustomComponent,
+  LineChartCustomComponent,
+  OrderBookCustomComponent,
+  PortfolioSummaryComponent,
+} from './Chat.custom-steps';
 
 const THEME = {
   fontFamily: 'Helvetica Neue',
@@ -19,12 +22,7 @@ const bubbleStyle = {
   textAlign: 'left',
 };
 
-type State = {
-  resultData?: Response;
-  initialInvestment: number;
-};
-
-interface Props {}
+interface Props { }
 
 interface ChatData {
   steps: Steps;
@@ -45,35 +43,7 @@ interface Step {
   value: number | string;
 }
 
-export class Chat extends Component<Props, State> {
-  state = {
-    initialInvestment: 0,
-    resultData: {
-      total: {
-        rateReturn: 10,
-        standardDeviation: 10,
-      },
-      graph: {
-        years: [2019, 2020, 2021, 2022, 2023],
-        meanEvolution: [10, 10, 10, 10, 10],
-        optimisticEvolution: [7, 8, 5, 6, 7],
-        pessimisticEvolution: [12, 13, 14, 13, 12],
-      },
-      portfolioContent: [
-        {
-          fund: {
-            isin: '001',
-            name: 'fond 1',
-            history: [],
-            externalities: [],
-            description: 'Fond 1 desc',
-          },
-          weight: 0.5,
-        },
-      ],
-    },
-  };
-
+export class Chat extends Component<Props> {
   getFunds = ({ steps }: ChatData) => {
     const userPreferences: UserChoice = {
       animals: Number(steps['animals-choice']['value']),
@@ -87,15 +57,14 @@ export class Chat extends Component<Props, State> {
     const volatility = Number(steps['risk-choice']['value']);
     const initialInvestment = Number(steps['investment-choice']['value']);
 
-    this.setState({
-      resultData: computationEngine(userPreferences, volatility, initialInvestment),
-    });
+    const chartService = ChatService.getInstance();
+    chartService.setInitialInvestment(initialInvestment);
+    chartService.setResultData(computationEngine(userPreferences, volatility, initialInvestment));
 
     return 'loading';
   };
 
   render() {
-    console.log(this.state.resultData);
     return (
       <div className="chat">
         <ChatBot
@@ -325,7 +294,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'efficiency',
-              component: <div className="chart-wrapper">this is a test</div>,
+              component: <PortfolioSummaryComponent />,
               asMessage: true,
               trigger: 'doughnut-1',
             },
@@ -336,11 +305,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'doughnut-2',
-              component: (
-                <div className="chart-wrapper">
-                  <DoughnutChart portfolio={this.state.resultData.portfolioContent} />
-                </div>
-              ),
+              component: <DoughnutChartCustomComponent />,
               asMessage: true,
               trigger: 'line-1',
             },
@@ -351,11 +316,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'line-2',
-              component: (
-                <div className="chart-wrapper">
-                  <LineChart graph={this.state.resultData.graph} />
-                </div>
-              ),
+              component: <LineChartCustomComponent />,
               asMessage: true,
               trigger: 'order-1',
             },
@@ -366,24 +327,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'order-2',
-              component: (
-                <table className="order-book">
-                  <tbody>
-                    <tr>
-                      <th>Isin</th>
-                      <th>Fond</th>
-                      <th>Prix</th>
-                    </tr>
-                    {this.state.resultData.portfolioContent.map(({ fund, weight }, index: number) => (
-                      <tr key={index}>
-                        <td>{fund.isin}</td>
-                        <td>{fund.name}</td>
-                        <td>{weight * this.state.initialInvestment}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ),
+              component: <OrderBookCustomComponent />,
               asMessage: true,
               end: true,
             },

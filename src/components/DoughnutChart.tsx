@@ -8,7 +8,7 @@ interface Props {
   portfolio: Response['portfolioContent'];
 }
 
-const ALL_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#8ae399'];
+const ALL_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#8AE399', '#F43996', '#AD1A58', '#DCF8E1', '#716BB9', '#D38F73', '#77E589'];
 
 export class DoughnutChart extends React.Component<Props, ChartData> {
   constructor(props: Props) {
@@ -28,7 +28,7 @@ export class DoughnutChart extends React.Component<Props, ChartData> {
       labels: this.props.portfolio.map(fund => fund.fund.name),
       datasets: [
         {
-          data: this.props.portfolio.map(fund => fund.weight),
+          data: this.props.portfolio.map(fund => Number(fund.weight.toFixed(2))),
           backgroundColor: colors,
           hoverBackgroundColor: colors,
         },

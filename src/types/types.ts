@@ -39,16 +39,18 @@ export interface PortfolioContentObject {
   weight: number;
 }
 
+export interface Graph {
+  years: number[];
+  meanEvolution: number[];
+  optimisticEvolution: number[];
+  pessimisticEvolution: number[];
+}
+
 export interface Response {
   total: {
     rateReturn: number;
     standardDeviation: number;
   };
-  graph: {
-    years: number[];
-    meanEvolution: number[];
-    optimisticEvolution: number[];
-    pessimisticEvolution: number[];
-  };
+  graph: Graph;
   portfolioContent: PortfolioContentObject[];
 }
