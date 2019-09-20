@@ -19,10 +19,10 @@ const bubbleStyle = {
   textAlign: 'left',
 };
 
-interface State {
+type State = {
   resultData?: Response;
   initialInvestment: number;
-}
+};
 
 interface Props {}
 
@@ -43,19 +43,6 @@ interface Steps {
 
 interface Step {
   value: number | string;
-}
-
-class DivComponent extends Component<State> {
-  render() {
-    return (
-      <div className="global-result">
-        Avec celui-ci, votre perspective de gain s'élève à{' '}
-        <span className="bold">{this.props.resultData && this.props.resultData.total.rateReturn}%</span> avec une
-        volatilité de{' '}
-        <span className="bold">{this.props.resultData && this.props.resultData.total.standardDeviation}%</span>
-      </div>
-    );
-  }
 }
 
 export class Chat extends Component<Props, State> {
@@ -338,7 +325,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'efficiency',
-              component: <DivComponent props={this.state} />,
+              component: <div className="chart-wrapper">this is a test</div>,
               asMessage: true,
               trigger: 'doughnut-1',
             },
