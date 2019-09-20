@@ -1,4 +1,4 @@
-import { EXPECTATION_MULTIPLIER_BASE_IN_PERCENT, fundsArray, NUMBER_OF_MONTHS } from './constants';
+import { EXPECTATION_MULTIPLIER_BASE_IN_PERCENT, fundsArray, NUMBER_OF_YEARS } from './constants';
 import {
   Externality,
   UserChoice,
@@ -128,7 +128,10 @@ const computePortfolioAllocation = (
   return portfolioAllocation;
 };
 
-const computePortfolioRateReturn = (expectationArray: ExpectationArray, portfolioAllocation: Portfolio): number => {
+const computePortfolioMonthlyRateReturn = (
+  expectationArray: ExpectationArray,
+  portfolioAllocation: Portfolio,
+): number => {
   return expectationArray.reduce(
     (totalRateReturn: number, expectation: number, index: number): number =>
       totalRateReturn + expectation * portfolioAllocation[index],
@@ -136,7 +139,11 @@ const computePortfolioRateReturn = (expectationArray: ExpectationArray, portfoli
   );
 };
 
-const computePortfolioStandardDeviation = (
+const computePortfolioAnnualRateReturn = (rateReturn: number): number => {
+  return Math.pow(1 + rateReturn, 12) - 1;
+};
+
+const computePortfolioMonthlyStandardDeviation = (
   covarianceMatrix: CovarianceMatrix,
   portfolioAllocation: Portfolio,
 ): number => {
@@ -148,6 +155,13 @@ const computePortfolioStandardDeviation = (
   }
 
   return Math.sqrt(variance);
+};
+
+const computePortfolioAnnualStandardDeviation = (
+  monthlyStandardDeviation: number,
+  monthlyRateReturn: number,
+): number => {
+  return Math.pow(monthlyRateReturn + monthlyStandardDeviation, 12) - Math.pow(monthlyRateReturn, 12);
 };
 
 const computeChatbotResponse = (
@@ -162,42 +176,47 @@ const computeChatbotResponse = (
       standardDeviation: 0,
     },
     graph: {
-      months: Array.from(Array(NUMBER_OF_MONTHS).keys()),
+      years: Array.from(Array(NUMBER_OF_YEARS).keys()),
       meanEvolution: [],
       optimisticEvolution: [],
       pessimisticEvolution: [],
     },
     portfolioContent: [],
   };
-  response.total.rateReturn = computePortfolioRateReturn(expectationArray, portfolioAllocation);
-  response.total.standardDeviation = computePortfolioStandardDeviation(covariance, portfolioAllocation);
+  const monthlyRateReturn = computePortfolioMonthlyRateReturn(expectationArray, portfolioAllocation);
+  response.total.rateReturn = computePortfolioAnnualRateReturn(monthlyRateReturn);
+  const monthlyStandardDeviation = computePortfolioMonthlyStandardDeviation(covariance, portfolioAllocation);
+  response.total.standardDeviation = computePortfolioAnnualStandardDeviation(
+    monthlyStandardDeviation,
+    monthlyRateReturn,
+  );
 
   if (1 + response.total.rateReturn) {
-    response.graph.meanEvolution = response.graph.months.map(
+    response.graph.meanEvolution = response.graph.years.map(
       (year: number): number => initialAmount * Math.pow(1 + response.total.rateReturn, year),
     );
   } else {
-    response.graph.meanEvolution = Array(NUMBER_OF_MONTHS).fill(0);
+    response.graph.meanEvolution = Array(NUMBER_OF_YEARS).fill(0);
     response.graph.meanEvolution[0] = initialAmount;
   }
 
   if (1 + response.total.rateReturn + response.total.standardDeviation) {
-    response.graph.optimisticEvolution = response.graph.months.map(
+    response.graph.optimisticEvolution = response.graph.years.map(
       (year: number): number =>
         initialAmount * Math.pow(1 + response.total.rateReturn + response.total.standardDeviation, year),
     );
   } else {
-    response.graph.optimisticEvolution = Array(NUMBER_OF_MONTHS).fill(0);
+    response.graph.optimisticEvolution = Array(NUMBER_OF_YEARS).fill(0);
     response.graph.optimisticEvolution[0] = initialAmount;
   }
 
   if (1 + response.total.rateReturn - response.total.standardDeviation) {
-    response.graph.pessimisticEvolution = response.graph.months.map(
+    response.graph.pessimisticEvolution = response.graph.years.map(
       (year: number): number =>
         initialAmount * Math.pow(1 + response.total.rateReturn - response.total.standardDeviation, year),
     );
   } else {
-    response.graph.pessimisticEvolution = Array(NUMBER_OF_MONTHS).fill(0);
+    response.graph.pessimisticEvolution = Array(NUMBER_OF_YEARS).fill(0);
     response.graph.pessimisticEvolution[0] = initialAmount;
   }
 
