@@ -26,12 +26,14 @@ export class DoughnutChart extends React.Component<Props, ChartData> {
 
     this.setState({
       labels: this.props.portfolio.map(fund => fund.fund.name),
-      datasets: [{
-        data: this.props.portfolio.map(fund => fund.weight),
-        backgroundColor: colors,
-        hoverBackgroundColor: colors
-      }]
-    })
+      datasets: [
+        {
+          data: this.props.portfolio.map(fund => fund.weight),
+          backgroundColor: colors,
+          hoverBackgroundColor: colors,
+        },
+      ],
+    });
   }
 
   render() {
