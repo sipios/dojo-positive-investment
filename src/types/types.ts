@@ -4,7 +4,7 @@ export enum ExternalityName {
   CLIMATE = 'climate',
   ENERGY = 'energy',
   EDUCATION = 'education',
-  EQUALITY = 'equality',
+  DEVELOPMENT = 'development',
 }
 
 export interface Externality {

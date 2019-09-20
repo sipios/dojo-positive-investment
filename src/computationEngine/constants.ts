@@ -5,7 +5,7 @@ export const fundsArray = [
     name: 'Forest corp.',
     externalities: [
       { name: ExternalityName.EDUCATION, score: -10 },
-      { name: ExternalityName.EQUALITY, score: -40 },
+      { name: ExternalityName.DEVELOPMENT, score: -40 },
       { name: ExternalityName.ENERGY, score: -20 },
       { name: ExternalityName.CLIMATE, score: 30 },
       { name: ExternalityName.FOREST, score: 90 },
@@ -289,7 +289,7 @@ export const fundsArray = [
     name: 'Solar inc.',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 40 },
-      { name: ExternalityName.EQUALITY, score: -10 },
+      { name: ExternalityName.DEVELOPMENT, score: -10 },
       { name: ExternalityName.ENERGY, score: 90 },
       { name: ExternalityName.CLIMATE, score: 60 },
       { name: ExternalityName.FOREST, score: -30 },
@@ -474,7 +474,7 @@ export const fundsArray = [
     name: 'Whales protection association',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 20 },
-      { name: ExternalityName.EQUALITY, score: 30 },
+      { name: ExternalityName.DEVELOPMENT, score: 30 },
       { name: ExternalityName.ENERGY, score: -10 },
       { name: ExternalityName.CLIMATE, score: -10 },
       { name: ExternalityName.FOREST, score: -30 },
@@ -706,7 +706,7 @@ export const fundsArray = [
     name: 'Jackson & Jackson',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 50 },
-      { name: ExternalityName.EQUALITY, score: 50 },
+      { name: ExternalityName.DEVELOPMENT, score: 50 },
       { name: ExternalityName.ENERGY, score: -10 },
       { name: ExternalityName.CLIMATE, score: -10 },
       { name: ExternalityName.FOREST, score: 0 },
@@ -1011,7 +1011,7 @@ export const fundsArray = [
     name: 'Health for all investments.',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 20 },
-      { name: ExternalityName.EQUALITY, score: 20 },
+      { name: ExternalityName.DEVELOPMENT, score: 20 },
       { name: ExternalityName.ENERGY, score: -30 },
       { name: ExternalityName.CLIMATE, score: -10 },
       { name: ExternalityName.FOREST, score: -10 },
@@ -1149,7 +1149,7 @@ export const fundsArray = [
     name: 'Earth cleaner',
     externalities: [
       { name: ExternalityName.EDUCATION, score: -20 },
-      { name: ExternalityName.EQUALITY, score: 10 },
+      { name: ExternalityName.DEVELOPMENT, score: 10 },
       { name: ExternalityName.ENERGY, score: 30 },
       { name: ExternalityName.CLIMATE, score: 60 },
       { name: ExternalityName.FOREST, score: 50 },
@@ -1253,7 +1253,7 @@ export const fundsArray = [
     name: 'Clean air',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
-      { name: ExternalityName.EQUALITY, score: 10 },
+      { name: ExternalityName.DEVELOPMENT, score: 10 },
       { name: ExternalityName.ENERGY, score: -15 },
       { name: ExternalityName.CLIMATE, score: 20 },
       { name: ExternalityName.FOREST, score: 20 },
@@ -1423,7 +1423,7 @@ export const fundsArray = [
     name: 'Red skins hunter',
     externalities: [
       { name: ExternalityName.EDUCATION, score: -90 },
-      { name: ExternalityName.EQUALITY, score: -50 },
+      { name: ExternalityName.DEVELOPMENT, score: -50 },
       { name: ExternalityName.ENERGY, score: -30 },
       { name: ExternalityName.CLIMATE, score: -50 },
       { name: ExternalityName.FOREST, score: -30 },
@@ -1603,7 +1603,7 @@ export const fundsArray = [
     name: 'World company',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
-      { name: ExternalityName.EQUALITY, score: 20 },
+      { name: ExternalityName.DEVELOPMENT, score: 20 },
       { name: ExternalityName.ENERGY, score: -30 },
       { name: ExternalityName.CLIMATE, score: -20 },
       { name: ExternalityName.FOREST, score: -30 },
@@ -1825,7 +1825,7 @@ export const fundsArray = [
     name: 'Green corp',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 20 },
-      { name: ExternalityName.EQUALITY, score: 10 },
+      { name: ExternalityName.DEVELOPMENT, score: 10 },
       { name: ExternalityName.ENERGY, score: 50 },
       { name: ExternalityName.CLIMATE, score: 90 },
       { name: ExternalityName.FOREST, score: 10 },
@@ -2057,7 +2057,7 @@ export const fundsArray = [
     name: 'Social goal',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 90 },
-      { name: ExternalityName.EQUALITY, score: 90 },
+      { name: ExternalityName.DEVELOPMENT, score: 90 },
       { name: ExternalityName.ENERGY, score: 10 },
       { name: ExternalityName.CLIMATE, score: -10 },
       { name: ExternalityName.FOREST, score: -10 },
@@ -2632,7 +2632,7 @@ export const fundsArray = [
     name: 'Co2 destroyer',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
-      { name: ExternalityName.EQUALITY, score: -10 },
+      { name: ExternalityName.DEVELOPMENT, score: -10 },
       { name: ExternalityName.ENERGY, score: 70 },
       { name: ExternalityName.CLIMATE, score: 60 },
       { name: ExternalityName.FOREST, score: 40 },
@@ -2814,7 +2814,7 @@ export const fundsArray = [
     name: 'Gaz dumper, corporation',
     externalities: [
       { name: ExternalityName.EDUCATION, score: -70 },
-      { name: ExternalityName.EQUALITY, score: -60 },
+      { name: ExternalityName.DEVELOPMENT, score: -60 },
       { name: ExternalityName.ENERGY, score: -50 },
       { name: ExternalityName.CLIMATE, score: -90 },
       { name: ExternalityName.FOREST, score: -10 },
@@ -3084,7 +3084,7 @@ export const fundsArray = [
     name: 'FRANCE Obligation',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
-      { name: ExternalityName.EQUALITY, score: 0 },
+      { name: ExternalityName.DEVELOPMENT, score: 0 },
       { name: ExternalityName.ENERGY, score: 0 },
       { name: ExternalityName.CLIMATE, score: 0 },
       { name: ExternalityName.FOREST, score: 0 },
