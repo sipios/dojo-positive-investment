@@ -191,7 +191,7 @@ const computeChatbotResponse = (
     monthlyRateReturn,
   );
 
-  if (1 + response.total.rateReturn) {
+  if (1 + response.total.rateReturn > 0) {
     response.graph.meanEvolution = response.graph.years.map(
       (year: number): number => initialAmount * Math.pow(1 + response.total.rateReturn, year),
     );
@@ -200,7 +200,7 @@ const computeChatbotResponse = (
     response.graph.meanEvolution[0] = initialAmount;
   }
 
-  if (1 + response.total.rateReturn + response.total.standardDeviation) {
+  if (1 + response.total.rateReturn + response.total.standardDeviation > 0) {
     response.graph.optimisticEvolution = response.graph.years.map(
       (year: number): number =>
         initialAmount * Math.pow(1 + response.total.rateReturn + response.total.standardDeviation, year),
@@ -210,7 +210,7 @@ const computeChatbotResponse = (
     response.graph.optimisticEvolution[0] = initialAmount;
   }
 
-  if (1 + response.total.rateReturn - response.total.standardDeviation) {
+  if (1 + response.total.rateReturn - response.total.standardDeviation > 0) {
     response.graph.pessimisticEvolution = response.graph.years.map(
       (year: number): number =>
         initialAmount * Math.pow(1 + response.total.rateReturn - response.total.standardDeviation, year),
