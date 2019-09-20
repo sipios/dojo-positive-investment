@@ -5,7 +5,7 @@ import './Chart.css';
 
 import computationEngine from '../computationEngine/engine';
 
-import { Response } from '../types/types';
+import { ExternalityName, Response } from '../types/types';
 import { UserChoice } from '../types/types';
 import { DoughnutChart } from './DoughnutChart';
 import { LineChart } from './LineChart';
@@ -24,8 +24,6 @@ type State = {
   initialInvestment: number;
 };
 
-interface Props {}
-
 interface ChatData {
   steps: Steps;
 }
@@ -35,7 +33,7 @@ interface Steps {
   'forest-choice': Step;
   'climate-choice': Step;
   'energy-choice': Step;
-  'equality-choice': Step;
+  'development-choice': Step;
   'education-choice': Step;
   'risk-choice': Step;
   'investment-choice': Step;
@@ -45,7 +43,7 @@ interface Step {
   value: number | string;
 }
 
-export class Chat extends Component<Props, State> {
+export class Chat extends Component<void, State> {
   state = {
     initialInvestment: 0,
     resultData: {
@@ -76,12 +74,12 @@ export class Chat extends Component<Props, State> {
 
   getFunds = ({ steps }: ChatData) => {
     const userPreferences: UserChoice = {
-      animals: Number(steps['animals-choice']['value']),
-      forest: Number(steps['forest-choice']['value']),
-      climate: Number(steps['climate-choice']['value']),
-      energy: Number(steps['energy-choice']['value']),
-      equality: Number(steps['equality-choice']['value']),
-      education: Number(steps['education-choice']['value']),
+      [ExternalityName.ANIMAL]: Number(steps['animals-choice']['value']),
+      [ExternalityName.FOREST]: Number(steps['forest-choice']['value']),
+      [ExternalityName.CLIMATE]: Number(steps['climate-choice']['value']),
+      [ExternalityName.ENERGY]: Number(steps['energy-choice']['value']),
+      [ExternalityName.DEVELOPMENT]: Number(steps['development-choice']['value']),
+      [ExternalityName.EDUCATION]: Number(steps['education-choice']['value']),
     };
 
     const volatility = Number(steps['risk-choice']['value']);
@@ -95,7 +93,7 @@ export class Chat extends Component<Props, State> {
   };
 
   render() {
-    console.log(this.state.resultData);
+    // console.log(this.state.resultData);
     return (
       <div className="chat">
         <ChatBot
@@ -163,26 +161,25 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'animals',
-              message:
-                'Souhaitez-vous protéger les animaux ? Que ce soit des caniches ou des chihuahuas, ils ont besoin de vous !',
+              message: 'Souhaitez-vous défendre les droits des animaux ?',
               trigger: 'animals-choice',
             },
             {
               id: 'animals-choice',
               options: [
                 {
-                  value: -1,
-                  label: 'Non, tuons-les tous 🔫',
+                  value: 0,
+                  label: 'Non, pas vraiment',
                   trigger: 'forest',
                 },
                 {
-                  value: 0,
-                  label: 'Une prochaîne fois',
+                  value: 0.5,
+                  label: 'Oui',
                   trigger: 'forest',
                 },
                 {
                   value: 1,
-                  label: 'Oui, ils sont tellement mignons 🦆🦜🐩',
+                  label: "Oui, c'est ma priorité",
                   trigger: 'forest',
                 },
               ],
@@ -196,13 +193,13 @@ export class Chat extends Component<Props, State> {
               id: 'forest-choice',
               options: [
                 {
-                  value: -1,
-                  label: '🔥🔥🔥 Brûlons-les ! 🔥🔥🔥',
+                  value: 0,
+                  label: 'Pas vraiment',
                   trigger: 'climate',
                 },
                 {
-                  value: 0,
-                  label: "J'ai d'autres priorités",
+                  value: 0.25,
+                  label: "Si cela n'affecte pas trop le rendement",
                   trigger: 'climate',
                 },
                 {
@@ -221,18 +218,43 @@ export class Chat extends Component<Props, State> {
               id: 'climate-choice',
               options: [
                 {
-                  value: -1,
-                  label: "🌪🚗🚚 Non, j'adore les pailles en plastique et rouler en 4x4 🏎✈️🔥",
-                  trigger: 'energy',
+                  value: 0,
+                  label: 'Non, pas vraiment',
+                  trigger: 'development',
                 },
                 {
+                  value: 1,
+                  label: 'Oui, je veux en tenir compte dans mes investissements',
+                  trigger: 'development',
+                },
+                {
+                  value: 2,
+                  label: '🚵‍♀🥦 Absolument, je veux faire des investissements responsables ⛵🌎️️',
+                  trigger: 'development',
+                },
+              ],
+            },
+            {
+              id: 'development',
+              message: 'Souhaitez-vous investir dans des projets aidant les pays en voie de développement?',
+              trigger: 'development-choice',
+            },
+            {
+              id: 'development-choice',
+              options: [
+                {
                   value: 0,
-                  label: 'On verra demain',
+                  label: 'Non, pas vraiment',
                   trigger: 'energy',
                 },
                 {
                   value: 1,
-                  label: '🚵‍♀🥦 Oui, je veux faire des investissements responsables ⛵🌎️️',
+                  label: "Oui, j'aimerait bien",
+                  trigger: 'energy',
+                },
+                {
+                  value: 3,
+                  label: "C'est ma première priorité️",
                   trigger: 'energy',
                 },
               ],
@@ -248,41 +270,16 @@ export class Chat extends Component<Props, State> {
                 {
                   value: -1,
                   label: '🛢🛢🛢 Non, ca marche bien le pétrole 🛢🛢🛢',
-                  trigger: 'equality',
+                  trigger: 'education',
                 },
                 {
                   value: 0,
                   label: 'Tant que ca ne baisse pas le rendement',
-                  trigger: 'equality',
+                  trigger: 'education',
                 },
                 {
                   value: 1,
                   label: "⚡️⚡️⚡️ Bien sur, Let's make America Greta again ️☀️☀️☀️",
-                  trigger: 'equality',
-                },
-              ],
-            },
-            {
-              id: 'equality',
-              message: "Souhaitez-vous développer l'égalité homme-femme ?",
-              trigger: 'equality-choice',
-            },
-            {
-              id: 'equality-choice',
-              options: [
-                {
-                  value: -1,
-                  label: '🧐🧐🧐 Non, c´était mieux au 19eme siècle 🎩🎩🎩',
-                  trigger: 'education',
-                },
-                {
-                  value: 0,
-                  label: 'Une prochaîne fois',
-                  trigger: 'education',
-                },
-                {
-                  value: 1,
-                  label: '👨‍🎨👩‍🎨👨‍🎨 Oui ! Travaillons ensemble 👩‍💻👨‍💻️👩‍💻',
                   trigger: 'education',
                 },
               ],
