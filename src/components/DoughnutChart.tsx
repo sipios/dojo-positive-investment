@@ -2,19 +2,13 @@ import { ChartData } from 'chart.js';
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-import { Result } from '../types/types';
+import { Response } from '../types/types';
 
 interface Props {
-  portfolio: Result['portfolioContent']
+  portfolio: Response['portfolioContent'];
 }
 
-const ALL_COLORS = [
-  '#FF6384',
-  '#36A2EB',
-  '#FFCE56',
-  '#8ae399'
-];
-
+const ALL_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#8ae399'];
 
 export class DoughnutChart extends React.Component<Props, ChartData> {
   constructor(props: Props) {
@@ -22,7 +16,7 @@ export class DoughnutChart extends React.Component<Props, ChartData> {
 
     this.state = {
       labels: [],
-      datasets: []
+      datasets: [],
     };
   }
 

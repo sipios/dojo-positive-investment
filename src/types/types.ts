@@ -45,7 +45,7 @@ export interface Response {
     standardDeviation: number;
   };
   graph: {
-    months: number[];
+    years: number[];
     meanEvolution: number[];
     optimisticEvolution: number[];
     pessimisticEvolution: number[];

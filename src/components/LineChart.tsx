@@ -2,11 +2,11 @@ import { ChartData, ChartDataSets } from 'chart.js';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-import { Result } from '../types/types';
+import { Response } from '../types/types';
 
 interface Props {
-  graph: Result['graph']
-};
+  graph: Response['graph'];
+}
 
 const DATA_SET_SAMPLE: ChartDataSets = {
   fill: false,

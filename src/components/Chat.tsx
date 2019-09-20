@@ -6,7 +6,6 @@ import './Chart.css';
 import computationEngine from '../computationEngine/engine';
 
 import { Response } from '../types/types';
-import { Fund } from '../types/types';
 import { UserChoice } from '../types/types';
 import { DoughnutChart } from './DoughnutChart';
 import { LineChart } from './LineChart';
@@ -21,7 +20,7 @@ const bubbleStyle = {
 };
 
 interface State {
-  funds?: Response;
+  resultData?: Response;
   initialInvestment: number;
 }
 
@@ -49,6 +48,30 @@ interface Step {
 export class Chat extends Component<Props, State> {
   state = {
     initialInvestment: 0,
+    resultData: {
+      total: {
+        rateReturn: 10,
+        standardDeviation: 10,
+      },
+      graph: {
+        years: [2019, 2020, 2021, 2022, 2023],
+        meanEvolution: [10, 10, 10, 10, 10],
+        optimisticEvolution: [7, 8, 5, 6, 7],
+        pessimisticEvolution: [12, 13, 14, 13, 12],
+      },
+      portfolioContent: [
+        {
+          fund: {
+            isin: '001',
+            name: 'fond 1',
+            history: [],
+            externalities: [],
+            description: 'Fond 1 desc',
+          },
+          weight: 0.5,
+        },
+      ],
+    },
   };
 
   getFunds = ({ steps }: ChatData) => {
@@ -64,24 +87,15 @@ export class Chat extends Component<Props, State> {
     const volatility = Number(steps['risk-choice']['value']);
     const initialInvestment = Number(steps['investment-choice']['value']);
 
-    // const resp = computationEngine(userPreferences, volatility, initialInvestment);
-
     this.setState({
-      funds: computationEngine(userPreferences, volatility, initialInvestment),
+      resultData: computationEngine(userPreferences, volatility, initialInvestment),
     });
 
     return 'loading';
   };
-  userChoices = {
-    animals: 1,
-    forest: 1,
-    climate: 1,
-    energy: 1,
-    education: 1,
-    equality: 1,
-  };
+
   render() {
-    console.log(computationEngine(this.userChoices, 0.8, 10000));
+    console.log(this.state.resultData);
     return (
       <div className="chat">
         <ChatBot
@@ -330,7 +344,7 @@ export class Chat extends Component<Props, State> {
               id: 'doughnut-2',
               component: (
                 <div className="chart-wrapper">
-                  <DoughnutChart portfolio={resultData.portfolioContent} />
+                  <DoughnutChart portfolio={this.state.resultData.portfolioContent} />
                 </div>
               ),
               asMessage: true,
@@ -345,7 +359,7 @@ export class Chat extends Component<Props, State> {
               id: 'line-2',
               component: (
                 <div className="chart-wrapper">
-                  <LineChart graph={resultData.graph} />
+                  <LineChart graph={this.state.resultData.graph} />
                 </div>
               ),
               asMessage: true,
@@ -360,18 +374,20 @@ export class Chat extends Component<Props, State> {
               id: 'order-2',
               component: (
                 <table className="order-book">
-                  <tr>
-                    <th>Isin</th>
-                    <th>Fond</th>
-                    <th>Prix</th>
-                  </tr>
-                  {resultData.portfolioContent.map(({ fund, weight }, index: number) => (
-                    <tr key={index}>
-                      <td>{fund.isin}</td>
-                      <td>{fund.name}</td>
-                      <td>{weight * this.state.initialInvestment}</td>
+                  <tbody>
+                    <tr>
+                      <th>Isin</th>
+                      <th>Fond</th>
+                      <th>Prix</th>
                     </tr>
-                  ))}
+                    {this.state.resultData.portfolioContent.map(({ fund, weight }, index: number) => (
+                      <tr key={index}>
+                        <td>{fund.isin}</td>
+                        <td>{fund.name}</td>
+                        <td>{weight * this.state.initialInvestment}</td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               ),
               asMessage: true,
@@ -383,48 +399,3 @@ export class Chat extends Component<Props, State> {
     );
   }
 }
-
-const resultData: Response = {
-  total: {
-    rateReturn: 10,
-    standardDeviation: 10,
-  },
-  graph: {
-    months: [2019, 2020, 2021, 2022, 2023],
-    meanEvolution: [10, 10, 10, 10, 10],
-    optimisticEvolution: [7, 8, 5, 6, 7],
-    pessimisticEvolution: [12, 13, 14, 13, 12],
-  },
-  portfolioContent: [
-    {
-      fund: {
-        isin: '001',
-        name: 'fond 1',
-        history: [],
-        externalities: [],
-        description: 'Fond 1 desc',
-      },
-      weight: 0.5,
-    },
-    {
-      fund: {
-        isin: '002',
-        name: 'fond 2',
-        history: [],
-        externalities: [],
-        description: 'Fond 2 desc',
-      },
-      weight: 0.3,
-    },
-    {
-      fund: {
-        isin: '003',
-        name: 'fond 3',
-        history: [],
-        externalities: [],
-        description: 'Fond 3 desc',
-      },
-      weight: 0.2,
-    },
-  ],
-};

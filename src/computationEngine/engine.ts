@@ -31,7 +31,7 @@ const computeFundsRateReturnExpectationArray = (): ExpectationArray => {
   const rateReturnExpectationArray = rateReturnHistoryArray.map((rateReturnHistory: Array<number>): number =>
     computeSingleFundRateReturnExpectation(rateReturnHistory),
   );
-  console.log(rateReturnExpectationArray);
+
   return rateReturnExpectationArray;
 };
 
@@ -68,8 +68,9 @@ const computeFundsRateReturnCovarianceMatrix = (rateReturnExpectationArray: Expe
   const rateReturnHistoryArray: Array<Array<number>> = fundsArray.map(
     (fund: Fund): ExpectationArray => computeFundRateReturnHistory(fund),
   );
-  let covarianceMatrix: Array<Array<number>> = [[]];
+  let covarianceMatrix: Array<Array<number>> = [];
   for (let i = 0; i < fundsArray.length; i++) {
+    covarianceMatrix[i] = new Array(fundsArray.length);
     for (let j = i; j < fundsArray.length; j++) {
       covarianceMatrix[i][j] = computeCovarianceXY(
         rateReturnHistoryArray[i],

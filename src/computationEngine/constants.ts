@@ -3383,15 +3383,11 @@ export const fundsArray = [
       2.047469452,
       2.052588126,
       2.057719596,
-      2.062863895
-    ]
-  }
+      2.062863895,
+    ],
+  },
 ];
 
 export const EXPECTATION_MULTIPLIER_BASE_IN_PERCENT = 0.1 / 100;
 
-<<<<<<< HEAD
-export const NUMBER_OF_MONTHS = 120;
-=======
-export const NUMBER_OF_YEARS = 15;
->>>>>>> master
+export const NUMBER_OF_YEARS = 10;
