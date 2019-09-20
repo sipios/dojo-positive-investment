@@ -86,7 +86,8 @@ export class Chat extends Component<Props, State> {
       climate: Number(steps['climate-choice']['value']),
       energy: Number(steps['energy-choice']['value']),
       equality: Number(steps['equality-choice']['value']),
-      education: Number(steps['education-choice']['value']),
+      // Fix library issue. steps['education-choice']['value'] is NaN if 0 is provided
+      education: Number(steps['education-choice']['value']) ? Number(steps['education-choice']['value']) : 0,
     };
 
     const volatility = Number(steps['risk-choice']['value']);
