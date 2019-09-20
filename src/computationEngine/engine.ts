@@ -21,10 +21,11 @@ const computeFundRateReturnHistory = (fund: Fund): Array<number> => {
   return rateReturnArray;
 };
 
+const computeSingleFundRateReturnExpectation = (fundRateReturnHistory: Array<number>): number => {
+  return fundRateReturnHistory.reduce((expectation, rate) => expectation + rate, 0) / fundRateReturnHistory.length;
+};
+
 const computeFundsRateReturnExpectationArray = (): ExpectationArray => {
-  const computeSingleFundRateReturnExpectation = (fundRateReturnHistory: Array<number>): number => {
-    return fundRateReturnHistory.reduce((expectation, rate) => expectation + rate, 0) / fundRateReturnHistory.length;
-  };
   const rateReturnHistoryArray: Array<Array<number>> = fundsArray.map(
     (fund: Fund): ExpectationArray => computeFundRateReturnHistory(fund),
   );
@@ -143,30 +144,72 @@ const computePortfolioAnnualRateReturn = (rateReturn: number): number => {
   return Math.pow(1 + rateReturn, 12) - 1;
 };
 
-const computePortfolioMonthlyStandardDeviation = (
-  covarianceMatrix: CovarianceMatrix,
-  portfolioAllocation: Portfolio,
-): number => {
-  let variance = 0;
-  for (let i = 0; i < covarianceMatrix.length; i++) {
-    for (let j = 0; j < covarianceMatrix.length; j++) {
-      variance += covarianceMatrix[i][j] * portfolioAllocation[i] * portfolioAllocation[j];
-    }
-  }
-
-  return Math.sqrt(variance);
+const computeFundAnnualRateReturnHistory = (fund: Fund): Array<number> => {
+  const filteredAnnualHistory = fund.history.filter((_value, index) => index % 12 === 4);
+  return filteredAnnualHistory.slice(1).map((currentValue, index) => {
+    const previousValue = filteredAnnualHistory[index];
+    return (currentValue - previousValue) / previousValue;
+  });
 };
 
-const computePortfolioAnnualStandardDeviation = (
-  monthlyStandardDeviation: number,
-  monthlyRateReturn: number,
-): number => {
-  return Math.pow(monthlyRateReturn + monthlyStandardDeviation, 12) - Math.pow(monthlyRateReturn, 12);
+const computeFundProportionalAnnualRateReturnHistory = (
+  fundAnnualRateReturnHistoryArray: Array<number>,
+  fundAllocation: number,
+): Array<number> => {
+  return fundAnnualRateReturnHistoryArray.map((annualRateReturn: number): number => annualRateReturn * fundAllocation);
+};
+
+const computeProportionalAnnualRateReturnHistory = (
+  annualRateReturnHistoryArray: Array<Array<number>>,
+  portfolioAllocation: Portfolio,
+): Array<Array<number>> => {
+  return annualRateReturnHistoryArray.map(
+    (fundAnnualRateReturn: Array<number>, index: number): Array<number> =>
+      computeFundProportionalAnnualRateReturnHistory(fundAnnualRateReturn, portfolioAllocation[index]),
+  );
+};
+
+const computeSumTwoArrays = (A: Array<number>, B: Array<number>): Array<number> => {
+  const sizeDifference = B.length - A.length;
+  if (sizeDifference > 0) {
+    return B.slice(sizeDifference).map((valueOfB: number, index: number): number => A[index] + valueOfB);
+  } else if (sizeDifference < 0) {
+    return A.slice(Math.abs(sizeDifference)).map((valueOfA: number, index: number): number => valueOfA + B[index]);
+  }
+  return A.map(index => A[index] + B[index]);
+};
+
+const computePortfolioAnnualRateReturnHistory = (portfolioAllocation: Portfolio): Array<number> => {
+  const annualRateReturnHistoryArray: Array<Array<number>> = fundsArray.map(
+    (fund: Fund): ExpectationArray => computeFundAnnualRateReturnHistory(fund),
+  );
+  const proportionalAnnualRateReturnHistoryArray: Array<Array<number>> = computeProportionalAnnualRateReturnHistory(
+    annualRateReturnHistoryArray,
+    portfolioAllocation,
+  );
+  const portfolioAnnualRateReturnHistory: Array<number> = proportionalAnnualRateReturnHistoryArray.reduce(
+    (portfolioAnnualRateReturn: Array<number>, fundProportionalAnnualRateReturn: Array<number>): Array<number> =>
+      computeSumTwoArrays(portfolioAnnualRateReturn, fundProportionalAnnualRateReturn),
+  );
+
+  return portfolioAnnualRateReturnHistory;
+};
+
+const computePortfolioAnnualStandardDeviation = (portfolioAllocation: Portfolio): number => {
+  const portfolioAnnualRateReturnHistory: Array<number> = computePortfolioAnnualRateReturnHistory(portfolioAllocation);
+  const portfolioExpectation: number = computeSingleFundRateReturnExpectation(portfolioAnnualRateReturnHistory);
+  const portfolioVariance: number =
+    portfolioAnnualRateReturnHistory.reduce(
+      (variance: number, rateReturn: number): number => variance + Math.pow(rateReturn - portfolioExpectation, 2),
+      0,
+    ) /
+    (portfolioAnnualRateReturnHistory.length - 1);
+
+  return Math.sqrt(portfolioVariance);
 };
 
 const computeChatbotResponse = (
   expectationArray: ExpectationArray,
-  covariance: CovarianceMatrix,
   portfolioAllocation: Portfolio,
   initialAmount: number,
 ): Response => {
@@ -185,11 +228,7 @@ const computeChatbotResponse = (
   };
   const monthlyRateReturn = computePortfolioMonthlyRateReturn(expectationArray, portfolioAllocation);
   response.total.rateReturn = computePortfolioAnnualRateReturn(monthlyRateReturn);
-  const monthlyStandardDeviation = computePortfolioMonthlyStandardDeviation(covariance, portfolioAllocation);
-  response.total.standardDeviation = computePortfolioAnnualStandardDeviation(
-    monthlyStandardDeviation,
-    monthlyRateReturn,
-  );
+  response.total.standardDeviation = computePortfolioAnnualStandardDeviation(portfolioAllocation);
 
   if (1 + response.total.rateReturn > 0) {
     response.graph.meanEvolution = response.graph.years.map(
@@ -231,10 +270,15 @@ const computeChatbotResponse = (
 };
 
 const computationEngine = (userChoice: UserChoice, maxVolatility: number, initialAmount: number): Response => {
-  const expectationArray = computeFundsRateReturnExpectationArray();
-  const covariance = computeFundsRateReturnCovarianceMatrix(expectationArray);
-  const portfolioAllocation = computePortfolioAllocation(expectationArray, covariance, userChoice, maxVolatility);
-  const response = computeChatbotResponse(expectationArray, covariance, portfolioAllocation, initialAmount);
+  const expectationArray: ExpectationArray = computeFundsRateReturnExpectationArray();
+  const covariance: CovarianceMatrix = computeFundsRateReturnCovarianceMatrix(expectationArray);
+  const portfolioAllocation: Portfolio = computePortfolioAllocation(
+    expectationArray,
+    covariance,
+    userChoice,
+    maxVolatility,
+  );
+  const response: Response = computeChatbotResponse(expectationArray, portfolioAllocation, initialAmount);
 
   return response;
 };
