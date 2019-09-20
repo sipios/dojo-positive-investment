@@ -5,8 +5,9 @@ import './Chart.css';
 
 import computationEngine from '../computationEngine/engine';
 
-import { Response } from '../types/types';
 import { UserChoice } from '../types/types';
+
+import { ChatService } from '../services/chatService';
 
 import {
   DoughnutChartCustomComponent,
@@ -22,11 +23,6 @@ const THEME = {
 
 const bubbleStyle = {
   textAlign: 'left',
-};
-
-type State = {
-  resultData?: Response;
-  initialInvestment: number;
 };
 
 interface Props {}
@@ -50,35 +46,7 @@ interface Step {
   value: number | string;
 }
 
-export class Chat extends Component<Props, State> {
-  state = {
-    initialInvestment: 0,
-    resultData: {
-      total: {
-        rateReturn: 10,
-        standardDeviation: 10,
-      },
-      graph: {
-        years: [2019, 2020, 2021, 2022, 2023],
-        meanEvolution: [10, 10, 10, 10, 10],
-        optimisticEvolution: [7, 8, 5, 6, 7],
-        pessimisticEvolution: [12, 13, 14, 13, 12],
-      },
-      portfolioContent: [
-        {
-          fund: {
-            isin: '001',
-            name: 'fond 1',
-            history: [],
-            externalities: [],
-            description: 'Fond 1 desc',
-          },
-          weight: 0.5,
-        },
-      ],
-    },
-  };
-
+export class Chat extends Component<Props> {
   getFunds = ({ steps }: ChatData) => {
     const userPreferences: UserChoice = {
       animals: Number(steps['animals-choice']['value']),
@@ -92,15 +60,14 @@ export class Chat extends Component<Props, State> {
     const volatility = Number(steps['risk-choice']['value']);
     const initialInvestment = Number(steps['investment-choice']['value']);
 
-    this.setState({
-      resultData: computationEngine(userPreferences, volatility, initialInvestment),
-    });
+    const chartService = ChatService.getInstance();
+    chartService.setInitialInvestment(initialInvestment);
+    chartService.setResultData(computationEngine(userPreferences, volatility, initialInvestment));
 
     return 'loading';
   };
 
   render() {
-    console.log(this.state.resultData);
     return (
       <div className="chat">
         <ChatBot
@@ -330,12 +297,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'efficiency',
-              component: (
-                <PortfolioSummaryComponent
-                  rateReturn={this.state.resultData.total.rateReturn}
-                  standardDeviation={this.state.resultData.total.standardDeviation}
-                />
-              ),
+              component: <PortfolioSummaryComponent />,
               asMessage: true,
               trigger: 'doughnut-1',
             },
@@ -346,7 +308,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'doughnut-2',
-              component: <DoughnutChartCustomComponent portfolioContent={this.state.resultData.portfolioContent} />,
+              component: <DoughnutChartCustomComponent />,
               asMessage: true,
               trigger: 'line-1',
             },
@@ -357,7 +319,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'line-2',
-              component: <LineChartCustomComponent graph={this.state.resultData.graph} />,
+              component: <LineChartCustomComponent />,
               asMessage: true,
               trigger: 'order-1',
             },
@@ -368,12 +330,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'order-2',
-              component: (
-                <OrderBookCustomComponent
-                  initialInvestment={this.state.initialInvestment}
-                  portfolioContent={this.state.resultData.portfolioContent}
-                />
-              ),
+              component: <OrderBookCustomComponent />,
               asMessage: true,
               end: true,
             },
