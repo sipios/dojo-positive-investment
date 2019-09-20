@@ -19,7 +19,7 @@ const bubbleStyle = {
   textAlign: 'left',
 };
 
-type State = {
+interface State {
   resultData?: Response;
   initialInvestment: number;
 };
@@ -43,7 +43,7 @@ interface Step {
   value: number | string;
 }
 
-export class Chat extends Component<void, State> {
+export class Chat extends Component<{}, State> {
   state = {
     initialInvestment: 0,
     resultData: {
@@ -93,7 +93,7 @@ export class Chat extends Component<void, State> {
   };
 
   render() {
-    // console.log(this.state.resultData);
+    console.log(this.state.resultData);
     return (
       <div className="chat">
         <ChatBot
@@ -198,7 +198,7 @@ export class Chat extends Component<void, State> {
                   trigger: 'climate',
                 },
                 {
-                  value: 0.25,
+                  value: 0.5,
                   label: "Si cela n'affecte pas trop le rendement",
                   trigger: 'climate',
                 },
@@ -223,12 +223,12 @@ export class Chat extends Component<void, State> {
                   trigger: 'development',
                 },
                 {
-                  value: 1,
+                  value: 0.5,
                   label: 'Oui, je veux en tenir compte dans mes investissements',
                   trigger: 'development',
                 },
                 {
-                  value: 2,
+                  value: 1,
                   label: '🚵‍♀🥦 Absolument, je veux faire des investissements responsables ⛵🌎️️',
                   trigger: 'development',
                 },
@@ -248,12 +248,12 @@ export class Chat extends Component<void, State> {
                   trigger: 'energy',
                 },
                 {
-                  value: 1,
-                  label: "Oui, j'aimerait bien",
+                  value: 0.5,
+                  label: "Oui, j'aimerais bien",
                   trigger: 'energy',
                 },
                 {
-                  value: 3,
+                  value: 1,
                   label: "C'est ma première priorité️",
                   trigger: 'energy',
                 },

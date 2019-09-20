@@ -19,14 +19,6 @@
     "styled-components": "^4.3.2",
     "typescript": "3.6.3"
   },
-  "devDependencies": {
-    "eslint-plugin-react": "^7.14.3",
-    "@typescript-eslint/parser": "^2.3.0",
-    "@typescript-eslint/eslint-plugin": "^2.3.0",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.3.0",
-    "eslint-plugin-prettier": "^3.1.0"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
