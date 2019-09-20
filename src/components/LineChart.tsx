@@ -36,7 +36,7 @@ export class LineChart extends React.Component<Props, ChartData> {
       {
         ...DATA_SET_SAMPLE,
         label: 'Evolution moyenne',
-        data: this.props.graph.meanEvolution,
+        data: this.props.graph.meanEvolution.map(value => Number(value.toFixed(2))),
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
         pointBorderColor: 'rgba(75,192,192,1)',
@@ -46,7 +46,7 @@ export class LineChart extends React.Component<Props, ChartData> {
       {
         ...DATA_SET_SAMPLE,
         label: 'Evolution optimiste',
-        data: this.props.graph.optimisticEvolution,
+        data: this.props.graph.optimisticEvolution.map(value => Number(value.toFixed(2))),
         backgroundColor: 'rgba(233, 62, 145, 0.4)',
         borderColor: 'rgba(233, 62, 145, 1)',
         pointBorderColor: 'rgba(233, 62, 145, 1)',
@@ -56,7 +56,7 @@ export class LineChart extends React.Component<Props, ChartData> {
       {
         ...DATA_SET_SAMPLE,
         label: 'Evolution pessimiste',
-        data: this.props.graph.pessimisticEvolution,
+        data: this.props.graph.pessimisticEvolution.map(value => Number(value.toFixed(2))),
         backgroundColor: 'rgba(0,204,102,0.4)',
         borderColor: 'rgba(0,204,102,1)',
         pointBorderColor: 'rgba(0,204,102,1)',

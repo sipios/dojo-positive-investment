@@ -1,19 +1,16 @@
+import './Chart.css';
+
 import React, { Component } from 'react';
 import ChatBot from 'react-simple-chatbot';
 
-import './Chart.css';
-
 import computationEngine from '../computationEngine/engine';
-
-import { UserChoice } from '../types/types';
-
 import { ChatService } from '../services/chatService';
-
+import { UserChoice } from '../types/types';
 import {
   DoughnutChartCustomComponent,
-  PortfolioSummaryComponent,
   LineChartCustomComponent,
   OrderBookCustomComponent,
+  PortfolioSummaryComponent,
 } from './Chat.custom-steps';
 
 const THEME = {
@@ -25,7 +22,7 @@ const bubbleStyle = {
   textAlign: 'left',
 };
 
-interface Props {}
+interface Props { }
 
 interface ChatData {
   steps: Steps;
