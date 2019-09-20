@@ -45,6 +45,19 @@ interface Step {
   value: number | string;
 }
 
+class DivComponent extends Component<State> {
+  render() {
+    return (
+      <div className="global-result">
+        Avec celui-ci, votre perspective de gain s'élève à{' '}
+        <span className="bold">{this.props.resultData && this.props.resultData.total.rateReturn}%</span> avec une
+        volatilité de{' '}
+        <span className="bold">{this.props.resultData && this.props.resultData.total.standardDeviation}%</span>
+      </div>
+    );
+  }
+}
+
 export class Chat extends Component<Props, State> {
   state = {
     initialInvestment: 0,
@@ -325,13 +338,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'efficiency',
-              component: (
-                <div className="global-result">
-                  Avec celui-ci, votre perspective de gain s'élève à{' '}
-                  <span className="bold">{resultData.total.rateReturn}%</span> avec une volatilité de{' '}
-                  <span className="bold">{resultData.total.standardDeviation}%</span>
-                </div>
-              ),
+              component: <DivComponent props={this.state} />,
               asMessage: true,
               trigger: 'doughnut-1',
             },
