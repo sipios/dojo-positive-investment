@@ -9,8 +9,8 @@ export const PortfolioSummaryComponent = () => {
   const { rateReturn, standardDeviation } = ChatService.getInstance().getTotal();
   return (
     <div className="global-result">
-      Avec celui-ci, votre perspective de gain s'élève à <span className="bold">{rateReturn}%</span> avec une volatilité
-      de <span className="bold">{standardDeviation}%</span>
+      Avec celui-ci, votre perspective de gain s'élève à <span className="bold">{(100 * rateReturn).toFixed(2)}%</span>{' '}
+      avec une volatilité de <span className="bold">{(100 * standardDeviation).toFixed(2)}%</span>
     </div>
   );
 };
@@ -48,7 +48,7 @@ export const OrderBookCustomComponent = () => {
           <tr key={index}>
             <td>{fund.isin}</td>
             <td>{fund.name}</td>
-            <td>{weight * initialInvestment}</td>
+            <td>{(weight * initialInvestment).toFixed(2)}</td>
           </tr>
         ))}
       </tbody>
