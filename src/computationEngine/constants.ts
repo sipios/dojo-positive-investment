@@ -1,17 +1,17 @@
-import { ExternalityName } from "../types/types";
+import { ExternalityName } from '../types/types';
 export const fundsArray = [
   {
-    isin: "A",
-    name: "Forest corp.",
+    isin: 'A',
+    name: 'Forest corp.',
     externalities: [
       { name: ExternalityName.EDUCATION, score: -10 },
       { name: ExternalityName.EQUALITY, score: -40 },
       { name: ExternalityName.ENERGY, score: -20 },
       { name: ExternalityName.CLIMATE, score: 30 },
       { name: ExternalityName.FOREST, score: 90 },
-      { name: ExternalityName.ANIMAL, score: 90 }
+      { name: ExternalityName.ANIMAL, score: 90 },
     ],
-    description: "We save the forest",
+    description: 'We save the forest',
     history: [
       1.5,
       1.541667,
@@ -281,21 +281,21 @@ export const fundsArray = [
       1893.630005,
       1866.780029,
       1776.290039,
-      1817.459961
-    ]
+      1817.459961,
+    ],
   },
   {
-    isin: "B",
-    name: "Solar inc.",
+    isin: 'B',
+    name: 'Solar inc.',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 40 },
       { name: ExternalityName.EQUALITY, score: -10 },
       { name: ExternalityName.ENERGY, score: 90 },
       { name: ExternalityName.CLIMATE, score: 60 },
       { name: ExternalityName.FOREST, score: -30 },
-      { name: ExternalityName.ANIMAL, score: -10 }
+      { name: ExternalityName.ANIMAL, score: -10 },
     ],
-    description: "We develop solar tech",
+    description: 'We develop solar tech',
     history: [
       8.1,
       6.402,
@@ -466,21 +466,21 @@ export const fundsArray = [
       117.360001,
       111.699997,
       104.470001,
-      108.400002
-    ]
+      108.400002,
+    ],
   },
   {
-    isin: "C",
-    name: "Whales protection association",
+    isin: 'C',
+    name: 'Whales protection association',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 20 },
       { name: ExternalityName.EQUALITY, score: 30 },
       { name: ExternalityName.ENERGY, score: -10 },
       { name: ExternalityName.CLIMATE, score: -10 },
       { name: ExternalityName.FOREST, score: -30 },
-      { name: ExternalityName.ANIMAL, score: 20 }
+      { name: ExternalityName.ANIMAL, score: 20 },
     ],
-    description: "We hunt the whales hunters",
+    description: 'We hunt the whales hunters',
     history: [
       8.038775,
       8.986152,
@@ -698,21 +698,21 @@ export const fundsArray = [
       124.68,
       128.059998,
       125.339996,
-      122.82
-    ]
+      122.82,
+    ],
   },
   {
-    isin: "D",
-    name: "Jackson & Jackson",
+    isin: 'D',
+    name: 'Jackson & Jackson',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 50 },
       { name: ExternalityName.EQUALITY, score: 50 },
       { name: ExternalityName.ENERGY, score: -10 },
       { name: ExternalityName.CLIMATE, score: -10 },
       { name: ExternalityName.FOREST, score: 0 },
-      { name: ExternalityName.ANIMAL, score: -90 }
+      { name: ExternalityName.ANIMAL, score: -90 },
     ],
-    description: "We make pharmaceutical drugs",
+    description: 'We make pharmaceutical drugs',
     history: [
       2.538234,
       2.361524,
@@ -1003,21 +1003,21 @@ export const fundsArray = [
       41.764999,
       42.18,
       41.035,
-      43.805
-    ]
+      43.805,
+    ],
   },
   {
-    isin: "E",
-    name: "Health for all investments.",
+    isin: 'E',
+    name: 'Health for all investments.',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 20 },
       { name: ExternalityName.EQUALITY, score: 20 },
       { name: ExternalityName.ENERGY, score: -30 },
       { name: ExternalityName.CLIMATE, score: -10 },
       { name: ExternalityName.FOREST, score: -10 },
-      { name: ExternalityName.ANIMAL, score: -40 }
+      { name: ExternalityName.ANIMAL, score: -40 },
     ],
-    description: "We make health accessible to everybody",
+    description: 'We make health accessible to everybody',
     history: [
       30.868017,
       33.366684,
@@ -1141,21 +1141,21 @@ export const fundsArray = [
       88.510002,
       100.980003,
       94.5,
-      96.900002
-    ]
+      96.900002,
+    ],
   },
   {
-    isin: "F",
-    name: "Earth cleaner",
+    isin: 'F',
+    name: 'Earth cleaner',
     externalities: [
       { name: ExternalityName.EDUCATION, score: -20 },
       { name: ExternalityName.EQUALITY, score: 10 },
       { name: ExternalityName.ENERGY, score: 30 },
       { name: ExternalityName.CLIMATE, score: 60 },
       { name: ExternalityName.FOREST, score: 50 },
-      { name: ExternalityName.ANIMAL, score: 55 }
+      { name: ExternalityName.ANIMAL, score: 55 },
     ],
-    description: "We clean the earth",
+    description: 'We clean the earth',
     history: [
       29.6,
       31.1,
@@ -1245,21 +1245,21 @@ export const fundsArray = [
       193,
       194.229996,
       185.669998,
-      188.139999
-    ]
+      188.139999,
+    ],
   },
   {
-    isin: "G",
-    name: "Clean air",
+    isin: 'G',
+    name: 'Clean air',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
       { name: ExternalityName.EQUALITY, score: 10 },
       { name: ExternalityName.ENERGY, score: -15 },
       { name: ExternalityName.CLIMATE, score: 20 },
       { name: ExternalityName.FOREST, score: 20 },
-      { name: ExternalityName.ANIMAL, score: 20 }
+      { name: ExternalityName.ANIMAL, score: 20 },
     ],
-    description: "We clean the atmosphere",
+    description: 'We clean the atmosphere',
     history: [
       28.299999,
       29.84,
@@ -1415,22 +1415,21 @@ export const fundsArray = [
       65.68,
       64.489998,
       62.07,
-      65.75
-    ]
+      65.75,
+    ],
   },
   {
-    isin: "H",
-    name: "Red skins hunter",
+    isin: 'H',
+    name: 'Red skins hunter',
     externalities: [
       { name: ExternalityName.EDUCATION, score: -90 },
       { name: ExternalityName.EQUALITY, score: -50 },
       { name: ExternalityName.ENERGY, score: -30 },
       { name: ExternalityName.CLIMATE, score: -50 },
       { name: ExternalityName.FOREST, score: -30 },
-      { name: ExternalityName.ANIMAL, score: -100 }
+      { name: ExternalityName.ANIMAL, score: -100 },
     ],
-    description:
-      "We hunt every types of animals, like elephants, leopards, and puppies",
+    description: 'We hunt every types of animals, like elephants, leopards, and puppies',
     history: [
       12.555428,
       12.487194,
@@ -1596,19 +1595,19 @@ export const fundsArray = [
       85.110001,
       82.730003,
       79.790001,
-      80.650002
-    ]
+      80.650002,
+    ],
   },
   {
-    isin: "I",
-    name: "World company",
+    isin: 'I',
+    name: 'World company',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
       { name: ExternalityName.EQUALITY, score: 20 },
       { name: ExternalityName.ENERGY, score: -30 },
       { name: ExternalityName.CLIMATE, score: -20 },
       { name: ExternalityName.FOREST, score: -30 },
-      { name: ExternalityName.ANIMAL, score: -30 }
+      { name: ExternalityName.ANIMAL, score: -30 },
     ],
     description: "We like money, we don't care the means",
     history: [
@@ -1818,21 +1817,21 @@ export const fundsArray = [
       2147.468018,
       1983.25,
       2025.099976,
-      2101.399902
-    ]
+      2101.399902,
+    ],
   },
   {
-    isin: "J",
-    name: "Green corp",
+    isin: 'J',
+    name: 'Green corp',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 20 },
       { name: ExternalityName.EQUALITY, score: 10 },
       { name: ExternalityName.ENERGY, score: 50 },
       { name: ExternalityName.CLIMATE, score: 90 },
       { name: ExternalityName.FOREST, score: 10 },
-      { name: ExternalityName.ANIMAL, score: 10 }
+      { name: ExternalityName.ANIMAL, score: 10 },
     ],
-    description: "We want a greener world",
+    description: 'We want a greener world',
     history: [
       8.038775,
       8.986152,
@@ -2050,21 +2049,21 @@ export const fundsArray = [
       124.68,
       128.059998,
       125.339996,
-      122.82
-    ]
+      122.82,
+    ],
   },
   {
-    isin: "K",
-    name: "Social goal",
+    isin: 'K',
+    name: 'Social goal',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 90 },
       { name: ExternalityName.EQUALITY, score: 90 },
       { name: ExternalityName.ENERGY, score: 10 },
       { name: ExternalityName.CLIMATE, score: -10 },
       { name: ExternalityName.FOREST, score: -10 },
-      { name: ExternalityName.ANIMAL, score: -10 }
+      { name: ExternalityName.ANIMAL, score: -10 },
     ],
-    description: "We want a world where everybody can be happy",
+    description: 'We want a world where everybody can be happy',
     history: [
       4.921495,
       4.627676,
@@ -2625,21 +2624,21 @@ export const fundsArray = [
       52.389999,
       56.860001,
       56.91,
-      59.110001
-    ]
+      59.110001,
+    ],
   },
   {
-    isin: "L",
-    name: "Co2 destroyer",
+    isin: 'L',
+    name: 'Co2 destroyer',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
       { name: ExternalityName.EQUALITY, score: -10 },
       { name: ExternalityName.ENERGY, score: 70 },
       { name: ExternalityName.CLIMATE, score: 60 },
       { name: ExternalityName.FOREST, score: 40 },
-      { name: ExternalityName.ANIMAL, score: 30 }
+      { name: ExternalityName.ANIMAL, score: 30 },
     ],
-    description: "We destroy the Co2 from the oceans and the atmosphere",
+    description: 'We destroy the Co2 from the oceans and the atmosphere',
     history: [
       25,
       33.990002,
@@ -2807,21 +2806,21 @@ export const fundsArray = [
       10.69,
       11.69,
       12.52,
-      14.41
-    ]
+      14.41,
+    ],
   },
   {
-    isin: "M",
-    name: "Gaz dumper, corporation",
+    isin: 'M',
+    name: 'Gaz dumper, corporation',
     externalities: [
       { name: ExternalityName.EDUCATION, score: -70 },
       { name: ExternalityName.EQUALITY, score: -60 },
       { name: ExternalityName.ENERGY, score: -50 },
       { name: ExternalityName.CLIMATE, score: -90 },
       { name: ExternalityName.FOREST, score: -10 },
-      { name: ExternalityName.ANIMAL, score: -60 }
+      { name: ExternalityName.ANIMAL, score: -60 },
     ],
-    description: "We basically dump gaz and oil in nature, because why not",
+    description: 'We basically dump gaz and oil in nature, because why not',
     history: [
       32.927395,
       23.244265,
@@ -3077,21 +3076,21 @@ export const fundsArray = [
       148.220001,
       150.940002,
       146.100006,
-      155.940002
-    ]
+      155.940002,
+    ],
   },
   {
-    isin: "N",
-    name: "FRANCE Obligation",
+    isin: 'N',
+    name: 'FRANCE Obligation',
     externalities: [
       { name: ExternalityName.EDUCATION, score: 0 },
       { name: ExternalityName.EQUALITY, score: 0 },
       { name: ExternalityName.ENERGY, score: 0 },
       { name: ExternalityName.CLIMATE, score: 0 },
       { name: ExternalityName.FOREST, score: 0 },
-      { name: ExternalityName.ANIMAL, score: 0 }
+      { name: ExternalityName.ANIMAL, score: 0 },
     ],
-    description: "We finance the french government",
+    description: 'We finance the french government',
     history: [
       1,
       1.0025,
@@ -3383,11 +3382,11 @@ export const fundsArray = [
       2.047469452,
       2.052588126,
       2.057719596,
-      2.062863895
-    ]
-  }
+      2.062863895,
+    ],
+  },
 ];
 
 export const EXPECTATION_MULTIPLIER_BASE_IN_PERCENT = 0.1 / 100;
 
-export const NUMBER_OF_YEARS = 15;
+export const NUMBER_OF_YEARS = 10;

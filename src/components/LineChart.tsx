@@ -2,11 +2,11 @@ import { ChartData, ChartDataSets } from 'chart.js';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-import { Result } from '../types/types';
+import { Response } from '../types/types';
 
 interface Props {
-  graph: Result['graph']
-};
+  graph: Response['graph'];
+}
 
 const DATA_SET_SAMPLE: ChartDataSets = {
   fill: false,
@@ -18,8 +18,8 @@ const DATA_SET_SAMPLE: ChartDataSets = {
   pointBackgroundColor: '#fff',
   pointBorderWidth: 1,
   pointHoverRadius: 5,
-  data: []
-}
+  data: [],
+};
 
 export class LineChart extends React.Component<Props, ChartData> {
   constructor(props: Props) {
@@ -27,7 +27,7 @@ export class LineChart extends React.Component<Props, ChartData> {
 
     this.state = {
       labels: [],
-      datasets: []
+      datasets: [],
     };
   }
 
@@ -62,13 +62,13 @@ export class LineChart extends React.Component<Props, ChartData> {
         pointBorderColor: 'rgba(0,204,102,1)',
         pointHoverBackgroundColor: 'rgba(0,204,102,1)',
         pointHoverBorderColor: 'rgba(220,220,220,1)',
-      }
+      },
     ];
 
     this.setState({
       labels: this.props.graph.years.map(year => year + ''),
       datasets: newDatasets,
-    })
+    });
   }
 
   render() {
