@@ -8,7 +8,7 @@ interface Props {
   portfolio: Response['portfolioContent'];
 }
 
-const ALL_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#8AE399', '#F43996', '#AD1A58', '#DCF8E1', '#716BB9', '#D38F73', '#77E589'];
+const ALL_COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#8AE399', '#198C3D', '#F43996', '#AD1A58', '#782325', '#DCF8E1', '#716BB9', '#D38F73', '#77E589', '#5C9BF2', '#14CCD5'];
 
 export class DoughnutChart extends React.Component<Props, ChartData> {
   constructor(props: Props) {
