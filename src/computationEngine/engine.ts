@@ -121,14 +121,10 @@ const computePortfolioAllocation = (
   const expectationMultiplierArray = computeRateReturnExpectationMultiplierArray(userChoice);
   const adaptedExpectationArray = computeAdaptedExpectationArray(expectationArray, expectationMultiplierArray);
 
-  const portfolioAllocation = PortfolioAllocation.meanVarianceOptimizationWeights(
-    adaptedExpectationArray.map(x => x + 0.000001 * Math.random()),
-    covariance,
-    {
-      optimizationMethod: 'maximumTargetVolatility',
-      constraints: { maxVolatility: maxVolatility },
-    },
-  );
+  const portfolioAllocation = PortfolioAllocation.meanVarianceOptimizationWeights(adaptedExpectationArray, covariance, {
+    optimizationMethod: 'maximumTargetVolatility',
+    constraints: { maxVolatility: maxVolatility },
+  });
 
   return portfolioAllocation;
 };
