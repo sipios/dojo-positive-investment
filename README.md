@@ -7,7 +7,7 @@ Avec Positive Investment, vous donnez l’opportunité à des millions de person
 
 ```bash
 # Pour télécharger le code
-git clone git@github.com:sipios/dojo-positive-investment
+git clone git@github.com:sipios/dojo-positive-investment.git
 
 # Pour installer les dépendances
 yarn install
