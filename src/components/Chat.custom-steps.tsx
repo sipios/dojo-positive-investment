@@ -3,56 +3,38 @@ import React from 'react';
 import { DoughnutChart } from './DoughnutChart';
 import { LineChart } from './LineChart';
 
-import { ChatService } from '../services/chatService';
-
 export const PortfolioSummaryComponent = () => {
-  const { rateReturn, standardDeviation } = ChatService.getInstance().getTotal();
-  return (
-    <div className="global-result">
-      Avec celui-ci, votre perspective de gain s'élève à <span className="bold">{(100 * rateReturn).toFixed(2)}%</span>{' '}
-      avec une volatilité de <span className="bold">{(100 * standardDeviation).toFixed(2)}%</span>
-    </div>
-  );
+  // TODO : Récupérer les données de rendement et d'écart type du service et les afficher
+
+  return <div className="global-result"></div>
 };
 
 export const DoughnutChartCustomComponent = () => {
-  const portfolioContent = ChatService.getInstance().getPortfolioContent();
+  // Récupérer les données sur la répartition des fonds et les passer en props au composant DoughnutChart
+
   return (
     <div className="chart-wrapper">
-      <DoughnutChart portfolio={portfolioContent} />
+      <DoughnutChart />
     </div>
   );
 };
 
 export const LineChartCustomComponent = () => {
-  const graph = ChatService.getInstance().getGraph();
+  // Récupérer les données sur l'évolution de l'investissement de l'utilisateur et les passer en props au composant LineChart
+
   return (
     <div className="chart-wrapper">
-      <LineChart graph={graph} />
+      <LineChart />
     </div>
   );
 };
 
 export const OrderBookCustomComponent = () => {
-  const initialInvestment = ChatService.getInstance().getInitialInvestment();
-  const portfolioContent = ChatService.getInstance()
-    .getPortfolioContent()
-    .filter(({ weight }) => weight > 0);
+  // TODO : Récupérer les données sur les fonds du portefeuille et construire un carnet d'ordres !
+
   return (
     <table className="order-book">
       <tbody>
-        <tr>
-          <th>Isin</th>
-          <th>Fond</th>
-          <th>Prix</th>
-        </tr>
-        {portfolioContent.map(({ fund, weight }, index: number) => (
-          <tr key={index}>
-            <td>{fund.isin}</td>
-            <td>{fund.name}</td>
-            <td>{(weight * initialInvestment).toFixed(2)}</td>
-          </tr>
-        ))}
       </tbody>
     </table>
   );

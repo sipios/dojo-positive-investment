@@ -1,14 +1,13 @@
-import { EXPECTATION_MULTIPLIER_BASE_IN_PERCENT, fundsArray, NUMBER_OF_YEARS } from './constants';
 import {
-  Externality,
-  UserChoice,
-  Fund,
-  ExpectationArray,
   CovarianceMatrix,
+  ExpectationArray,
+  Fund,
   Portfolio,
-  Response,
   PortfolioContentObject,
+  Response,
+  UserChoice,
 } from '../types/types';
+import { EXPECTATION_MULTIPLIER_BASE_IN_PERCENT, fundsArray, NUMBER_OF_YEARS } from './constants';
 
 let PortfolioAllocation = require('portfolio-allocation');
 
@@ -50,12 +49,8 @@ const computeCovarianceXY = (X: number[], Y: number[], expectationX: number, exp
     centeredX = X.map((value: number): number => value - expectationX);
     centeredY = Y.map((value: number): number => value - expectationY);
   }
-  const covarianceXY =
-    centeredX.reduce(
-      (totalSum: number, centeredXValue: number, index: number): number => totalSum + centeredXValue * centeredY[index],
-      0,
-    ) /
-    (centeredX.length - 1);
+  // TODO : Calculer la covariance entre deux tableaux
+  const covarianceXY = 0;
 
   return covarianceXY;
 };
@@ -64,32 +59,17 @@ const computeFundsRateReturnCovarianceMatrix = (rateReturnExpectationArray: Expe
   const rateReturnHistoryArray: number[][] = fundsArray.map(
     (fund: Fund): ExpectationArray => computeFundRateReturnHistory(fund),
   );
+
+  // TODO : Faire le calcul de la matrice de covariance
   let covarianceMatrix: number[][] = [];
-  for (let i = 0; i < fundsArray.length; i++) {
-    covarianceMatrix[i] = new Array(fundsArray.length);
-    for (let j = i; j < fundsArray.length; j++) {
-      covarianceMatrix[i][j] = computeCovarianceXY(
-        rateReturnHistoryArray[i],
-        rateReturnHistoryArray[j],
-        rateReturnExpectationArray[i],
-        rateReturnExpectationArray[j],
-      );
-    }
-    for (let j = 0; j < i; j++) {
-      covarianceMatrix[i][j] = covarianceMatrix[j][i];
-    }
-  }
 
   return covarianceMatrix;
 };
 
 const computeRateReturnExpectationMultiplierArray = (userChoice: UserChoice): ExpectationArray => {
   const getFundAdequationWithUserPreferenceFactor = (fund: Fund): number => {
-    return fund.externalities.reduce(
-      (totalExternalityValue: number, externality: Externality): number =>
-        totalExternalityValue + externality.score * userChoice[externality.name],
-      0,
-    );
+    // TODO : Calculer le facteur de préférence de l'utilisateur associé à un fond
+    return 0;
   };
 
   return fundsArray.map(
@@ -101,10 +81,8 @@ const computeAdaptedExpectationArray = (
   rateReturnExpectationArray: ExpectationArray,
   rateReturnExpectationMultiplierArray: ExpectationArray,
 ): ExpectationArray => {
-  return rateReturnExpectationArray.map(
-    (expectationValue: number, index: number): number =>
-      expectationValue + Math.abs(expectationValue) * rateReturnExpectationMultiplierArray[index],
-  );
+  // TODO : Calculer l'espérance modifiée
+  return [];
 };
 
 const computePortfolioAllocation = (
@@ -116,10 +94,7 @@ const computePortfolioAllocation = (
   const expectationMultiplierArray = computeRateReturnExpectationMultiplierArray(userChoice);
   const adaptedExpectationArray = computeAdaptedExpectationArray(expectationArray, expectationMultiplierArray);
 
-  const portfolioAllocation = PortfolioAllocation.meanVarianceOptimizationWeights(adaptedExpectationArray, covariance, {
-    optimizationMethod: 'maximumTargetVolatility',
-    constraints: { maxVolatility: maxVolatility },
-  });
+  const portfolioAllocation = [0];
 
   return portfolioAllocation;
 };
