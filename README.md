@@ -15,3 +15,8 @@ cd dojo-positive-investment && yarn install
 # Pour lancer le projet
 yarn start
 ```
+
+## Liens utiles
+
+- [Slides de présentation du Dojo](https://docs.google.com/presentation/d/1MyiZ60qXcrNrlVtmkhXcZvhMcnKYcaZugz6exo4VML4/edit?usp=sharing)
+- [Trello du Dojo](https://trello.com/b/Id9Ds4L7)
