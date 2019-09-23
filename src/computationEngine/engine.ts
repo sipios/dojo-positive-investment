@@ -12,7 +12,7 @@ import {
 
 let PortfolioAllocation = require('portfolio-allocation');
 
-const computeFundRateReturnHistory = (fund: Fund): Array<number> => {
+const computeFundRateReturnHistory = (fund: Fund): number[] => {
   const rateReturnArray = fund.history.slice(1).map((currentValue, index) => {
     const previousValue = fund.history[index];
     return (currentValue - previousValue) / previousValue;
@@ -21,30 +21,25 @@ const computeFundRateReturnHistory = (fund: Fund): Array<number> => {
   return rateReturnArray;
 };
 
-const computeSingleFundRateReturnExpectation = (fundRateReturnHistory: Array<number>): number => {
+const computeSingleFundRateReturnExpectation = (fundRateReturnHistory: number[]): number => {
   return fundRateReturnHistory.reduce((expectation, rate) => expectation + rate, 0) / fundRateReturnHistory.length;
 };
 
 const computeFundsRateReturnExpectationArray = (): ExpectationArray => {
-  const rateReturnHistoryArray: Array<Array<number>> = fundsArray.map(
+  const rateReturnHistoryArray: number[][] = fundsArray.map(
     (fund: Fund): ExpectationArray => computeFundRateReturnHistory(fund),
   );
-  const rateReturnExpectationArray = rateReturnHistoryArray.map((rateReturnHistory: Array<number>): number =>
+  const rateReturnExpectationArray = rateReturnHistoryArray.map((rateReturnHistory: number[]): number =>
     computeSingleFundRateReturnExpectation(rateReturnHistory),
   );
 
   return rateReturnExpectationArray;
 };
 
-const computeCovarianceXY = (
-  X: Array<number>,
-  Y: Array<number>,
-  expectationX: number,
-  expectationY: number,
-): number => {
+const computeCovarianceXY = (X: number[], Y: number[], expectationX: number, expectationY: number): number => {
   const startIndex: number = Math.max(X.length, Y.length) - Math.min(X.length, Y.length);
-  let centeredX: Array<number> = [];
-  let centeredY: Array<number> = [];
+  let centeredX: number[] = [];
+  let centeredY: number[] = [];
   if (X.length < Y.length) {
     centeredX = X.map((value: number): number => value - expectationX);
     centeredY = Y.slice(startIndex).map((value: number): number => value - expectationY);
@@ -66,10 +61,10 @@ const computeCovarianceXY = (
 };
 
 const computeFundsRateReturnCovarianceMatrix = (rateReturnExpectationArray: ExpectationArray): CovarianceMatrix => {
-  const rateReturnHistoryArray: Array<Array<number>> = fundsArray.map(
+  const rateReturnHistoryArray: number[][] = fundsArray.map(
     (fund: Fund): ExpectationArray => computeFundRateReturnHistory(fund),
   );
-  let covarianceMatrix: Array<Array<number>> = [];
+  let covarianceMatrix: number[][] = [];
   for (let i = 0; i < fundsArray.length; i++) {
     covarianceMatrix[i] = new Array(fundsArray.length);
     for (let j = i; j < fundsArray.length; j++) {
@@ -144,7 +139,7 @@ const computePortfolioAnnualRateReturn = (rateReturn: number): number => {
   return Math.pow(1 + rateReturn, 12) - 1;
 };
 
-const computeFundAnnualRateReturnHistory = (fund: Fund): Array<number> => {
+const computeFundAnnualRateReturnHistory = (fund: Fund): number[] => {
   const filteredAnnualHistory = fund.history.filter((_value, index) => index % 12 === 4);
   return filteredAnnualHistory.slice(1).map((currentValue, index) => {
     const previousValue = filteredAnnualHistory[index];
@@ -153,23 +148,22 @@ const computeFundAnnualRateReturnHistory = (fund: Fund): Array<number> => {
 };
 
 const computeFundProportionalAnnualRateReturnHistory = (
-  fundAnnualRateReturnHistoryArray: Array<number>,
+  fundAnnualRateReturnHistoryArray: number[],
   fundAllocation: number,
-): Array<number> => {
+): number[] => {
   return fundAnnualRateReturnHistoryArray.map((annualRateReturn: number): number => annualRateReturn * fundAllocation);
 };
 
 const computeProportionalAnnualRateReturnHistory = (
-  annualRateReturnHistoryArray: Array<Array<number>>,
+  annualRateReturnHistoryArray: number[][],
   portfolioAllocation: Portfolio,
-): Array<Array<number>> => {
-  return annualRateReturnHistoryArray.map(
-    (fundAnnualRateReturn: Array<number>, index: number): Array<number> =>
-      computeFundProportionalAnnualRateReturnHistory(fundAnnualRateReturn, portfolioAllocation[index]),
+): number[][] => {
+  return annualRateReturnHistoryArray.map((fundAnnualRateReturn: number[], index: number): number[] =>
+    computeFundProportionalAnnualRateReturnHistory(fundAnnualRateReturn, portfolioAllocation[index]),
   );
 };
 
-const computeSumTwoArrays = (A: Array<number>, B: Array<number>): Array<number> => {
+const computeSumTwoArrays = (A: number[], B: number[]): number[] => {
   const sizeDifference = B.length - A.length;
   if (sizeDifference > 0) {
     return B.slice(sizeDifference).map((valueOfB: number, index: number): number => A[index] + valueOfB);
@@ -179,16 +173,16 @@ const computeSumTwoArrays = (A: Array<number>, B: Array<number>): Array<number> 
   return A.map(index => A[index] + B[index]);
 };
 
-const computePortfolioAnnualRateReturnHistory = (portfolioAllocation: Portfolio): Array<number> => {
-  const annualRateReturnHistoryArray: Array<Array<number>> = fundsArray.map(
+const computePortfolioAnnualRateReturnHistory = (portfolioAllocation: Portfolio): number[] => {
+  const annualRateReturnHistoryArray: number[][] = fundsArray.map(
     (fund: Fund): ExpectationArray => computeFundAnnualRateReturnHistory(fund),
   );
-  const proportionalAnnualRateReturnHistoryArray: Array<Array<number>> = computeProportionalAnnualRateReturnHistory(
+  const proportionalAnnualRateReturnHistoryArray: number[][] = computeProportionalAnnualRateReturnHistory(
     annualRateReturnHistoryArray,
     portfolioAllocation,
   );
-  const portfolioAnnualRateReturnHistory: Array<number> = proportionalAnnualRateReturnHistoryArray.reduce(
-    (portfolioAnnualRateReturn: Array<number>, fundProportionalAnnualRateReturn: Array<number>): Array<number> =>
+  const portfolioAnnualRateReturnHistory: number[] = proportionalAnnualRateReturnHistoryArray.reduce(
+    (portfolioAnnualRateReturn: number[], fundProportionalAnnualRateReturn: number[]): number[] =>
       computeSumTwoArrays(portfolioAnnualRateReturn, fundProportionalAnnualRateReturn),
   );
 
@@ -196,7 +190,7 @@ const computePortfolioAnnualRateReturnHistory = (portfolioAllocation: Portfolio)
 };
 
 const computePortfolioAnnualStandardDeviation = (portfolioAllocation: Portfolio): number => {
-  const portfolioAnnualRateReturnHistory: Array<number> = computePortfolioAnnualRateReturnHistory(portfolioAllocation);
+  const portfolioAnnualRateReturnHistory: number[] = computePortfolioAnnualRateReturnHistory(portfolioAllocation);
   const portfolioExpectation: number = computeSingleFundRateReturnExpectation(portfolioAnnualRateReturnHistory);
   const portfolioVariance: number =
     portfolioAnnualRateReturnHistory.reduce(
