@@ -1,18 +1,16 @@
+import './Chart.css';
+
 import React, { Component } from 'react';
 import ChatBot from 'react-simple-chatbot';
 
-import './Chart.css';
-
 import computationEngine from '../computationEngine/engine';
-
-import { Response } from '../types/types';
-import { UserChoice } from '../types/types';
-
+import { ChatService } from '../services/chatService';
+import { ExternalityName, UserChoice } from '../types/types';
 import {
   DoughnutChartCustomComponent,
-  PortfolioSummaryComponent,
   LineChartCustomComponent,
   OrderBookCustomComponent,
+  PortfolioSummaryComponent,
 } from './Chat.custom-steps';
 
 const THEME = {
@@ -22,11 +20,6 @@ const THEME = {
 
 const bubbleStyle = {
   textAlign: 'left',
-};
-
-type State = {
-  resultData?: Response;
-  initialInvestment: number;
 };
 
 interface Props {}
@@ -40,7 +33,7 @@ interface Steps {
   'forest-choice': Step;
   'climate-choice': Step;
   'energy-choice': Step;
-  'equality-choice': Step;
+  'development-choice': Step;
   'education-choice': Step;
   'risk-choice': Step;
   'investment-choice': Step;
@@ -50,58 +43,29 @@ interface Step {
   value: number | string;
 }
 
-export class Chat extends Component<Props, State> {
-  state = {
-    initialInvestment: 0,
-    resultData: {
-      total: {
-        rateReturn: 10,
-        standardDeviation: 10,
-      },
-      graph: {
-        years: [2019, 2020, 2021, 2022, 2023],
-        meanEvolution: [10, 10, 10, 10, 10],
-        optimisticEvolution: [7, 8, 5, 6, 7],
-        pessimisticEvolution: [12, 13, 14, 13, 12],
-      },
-      portfolioContent: [
-        {
-          fund: {
-            isin: '001',
-            name: 'fond 1',
-            history: [],
-            externalities: [],
-            description: 'Fond 1 desc',
-          },
-          weight: 0.5,
-        },
-      ],
-    },
-  };
-
+export class Chat extends Component<Props> {
   getFunds = ({ steps }: ChatData) => {
     const userPreferences: UserChoice = {
-      animals: Number(steps['animals-choice']['value']),
-      forest: Number(steps['forest-choice']['value']),
-      climate: Number(steps['climate-choice']['value']),
-      energy: Number(steps['energy-choice']['value']),
-      equality: Number(steps['equality-choice']['value']),
+      [ExternalityName.ANIMAL]: Number(steps['animals-choice']['value']),
+      [ExternalityName.FOREST]: Number(steps['forest-choice']['value']),
+      [ExternalityName.CLIMATE]: Number(steps['climate-choice']['value']),
+      [ExternalityName.ENERGY]: Number(steps['energy-choice']['value']),
+      [ExternalityName.DEVELOPMENT]: Number(steps['development-choice']['value']),
       // Fix library issue. steps['education-choice']['value'] is NaN if 0 is provided
-      education: Number(steps['education-choice']['value']) ? Number(steps['education-choice']['value']) : 0,
+      [ExternalityName.EDUCATION]: Number(steps['education-choice']['value']) ? Number(steps['education-choice']['value']) : 0,
     };
 
     const volatility = Number(steps['risk-choice']['value']);
     const initialInvestment = Number(steps['investment-choice']['value']);
 
-    this.setState({
-      resultData: computationEngine(userPreferences, volatility, initialInvestment),
-    });
+    const chartService = ChatService.getInstance();
+    chartService.setInitialInvestment(initialInvestment);
+    chartService.setResultData(computationEngine(userPreferences, volatility, initialInvestment));
 
     return 'loading';
   };
 
   render() {
-    console.log(this.state.resultData);
     return (
       <div className="chat">
         <ChatBot
@@ -169,26 +133,25 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'animals',
-              message:
-                'Souhaitez-vous protéger les animaux ? Que ce soit des caniches ou des chihuahuas, ils ont besoin de vous !',
+              message: 'Souhaitez-vous défendre les droits des animaux ?',
               trigger: 'animals-choice',
             },
             {
               id: 'animals-choice',
               options: [
                 {
-                  value: -1,
-                  label: 'Non, tuons-les tous 🔫',
+                  value: 0,
+                  label: 'Non, pas vraiment',
                   trigger: 'forest',
                 },
                 {
-                  value: 0,
-                  label: 'Une prochaîne fois',
+                  value: 0.5,
+                  label: 'Oui',
                   trigger: 'forest',
                 },
                 {
                   value: 1,
-                  label: 'Oui, ils sont tellement mignons 🦆🦜🐩',
+                  label: "Oui, c'est ma priorité",
                   trigger: 'forest',
                 },
               ],
@@ -202,13 +165,13 @@ export class Chat extends Component<Props, State> {
               id: 'forest-choice',
               options: [
                 {
-                  value: -1,
-                  label: '🔥🔥🔥 Brûlons-les ! 🔥🔥🔥',
+                  value: 0,
+                  label: 'Pas vraiment',
                   trigger: 'climate',
                 },
                 {
-                  value: 0,
-                  label: "J'ai d'autres priorités",
+                  value: 0.5,
+                  label: "Si cela n'affecte pas trop le rendement",
                   trigger: 'climate',
                 },
                 {
@@ -227,18 +190,43 @@ export class Chat extends Component<Props, State> {
               id: 'climate-choice',
               options: [
                 {
-                  value: -1,
-                  label: "🌪🚗🚚 Non, j'adore les pailles en plastique et rouler en 4x4 🏎✈️🔥",
+                  value: 0,
+                  label: 'Non, pas vraiment',
+                  trigger: 'development',
+                },
+                {
+                  value: 0.5,
+                  label: 'Oui, je veux en tenir compte dans mes investissements',
+                  trigger: 'development',
+                },
+                {
+                  value: 1,
+                  label: '🚵‍♀🥦 Absolument, je veux faire des investissements responsables ⛵🌎️️',
+                  trigger: 'development',
+                },
+              ],
+            },
+            {
+              id: 'development',
+              message: 'Souhaitez-vous investir dans des projets aidant les pays en voie de développement?',
+              trigger: 'development-choice',
+            },
+            {
+              id: 'development-choice',
+              options: [
+                {
+                  value: 0,
+                  label: 'Non, pas vraiment',
                   trigger: 'energy',
                 },
                 {
-                  value: 0,
-                  label: 'On verra demain',
+                  value: 0.5,
+                  label: "Oui, j'aimerais bien",
                   trigger: 'energy',
                 },
                 {
                   value: 1,
-                  label: '🚵‍♀🥦 Oui, je veux faire des investissements responsables ⛵🌎️️',
+                  label: "C'est ma première priorité️",
                   trigger: 'energy',
                 },
               ],
@@ -254,41 +242,16 @@ export class Chat extends Component<Props, State> {
                 {
                   value: -1,
                   label: '🛢🛢🛢 Non, ca marche bien le pétrole 🛢🛢🛢',
-                  trigger: 'equality',
+                  trigger: 'education',
                 },
                 {
                   value: 0,
                   label: 'Tant que ca ne baisse pas le rendement',
-                  trigger: 'equality',
+                  trigger: 'education',
                 },
                 {
                   value: 1,
                   label: "⚡️⚡️⚡️ Bien sur, Let's make America Greta again ️☀️☀️☀️",
-                  trigger: 'equality',
-                },
-              ],
-            },
-            {
-              id: 'equality',
-              message: "Souhaitez-vous développer l'égalité homme-femme ?",
-              trigger: 'equality-choice',
-            },
-            {
-              id: 'equality-choice',
-              options: [
-                {
-                  value: -1,
-                  label: '🧐🧐🧐 Non, c´était mieux au 19eme siècle 🎩🎩🎩',
-                  trigger: 'education',
-                },
-                {
-                  value: 0,
-                  label: 'Une prochaîne fois',
-                  trigger: 'education',
-                },
-                {
-                  value: 1,
-                  label: '👨‍🎨👩‍🎨👨‍🎨 Oui ! Travaillons ensemble 👩‍💻👨‍💻️👩‍💻',
                   trigger: 'education',
                 },
               ],
@@ -331,12 +294,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'efficiency',
-              component: (
-                <PortfolioSummaryComponent
-                  rateReturn={this.state.resultData.total.rateReturn}
-                  standardDeviation={this.state.resultData.total.standardDeviation}
-                />
-              ),
+              component: <PortfolioSummaryComponent />,
               asMessage: true,
               trigger: 'doughnut-1',
             },
@@ -347,7 +305,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'doughnut-2',
-              component: <DoughnutChartCustomComponent portfolioContent={this.state.resultData.portfolioContent} />,
+              component: <DoughnutChartCustomComponent />,
               asMessage: true,
               trigger: 'line-1',
             },
@@ -358,7 +316,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'line-2',
-              component: <LineChartCustomComponent graph={this.state.resultData.graph} />,
+              component: <LineChartCustomComponent />,
               asMessage: true,
               trigger: 'order-1',
             },
@@ -369,12 +327,7 @@ export class Chat extends Component<Props, State> {
             },
             {
               id: 'order-2',
-              component: (
-                <OrderBookCustomComponent
-                  initialInvestment={this.state.initialInvestment}
-                  portfolioContent={this.state.resultData.portfolioContent}
-                />
-              ),
+              component: <OrderBookCustomComponent />,
               asMessage: true,
               end: true,
             },
