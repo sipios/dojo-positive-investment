@@ -3387,6 +3387,12 @@ export const fundsArray = [
   },
 ];
 
-export const EXPECTATION_MULTIPLIER_BASE_IN_PERCENT = 0.1 / 100;
+export const EXPECTATION_MULTIPLIER_BASE_IN_PERCENT = 2 / 100;
 
 export const NUMBER_OF_YEARS = 10;
+
+export const HIGH_RISK_VOLATILITY = 0.12;
+
+export const MEDIUM_RISK_VOLATILITY = 0.05;
+
+export const LOW_RISK_VOLATILITY = 0.01;
