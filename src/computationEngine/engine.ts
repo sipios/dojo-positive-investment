@@ -243,10 +243,9 @@ const computeChatbotResponse = (
     response.graph.optimisticEvolution[0] = initialAmount;
   }
 
-  if (1 + response.total.rateReturn - response.total.standardDeviation > 0) {
+  if (1 - response.total.standardDeviation > 0) {
     response.graph.pessimisticEvolution = response.graph.years.map(
-      (year: number): number =>
-        initialAmount * Math.pow(1 + response.total.rateReturn - response.total.standardDeviation, year),
+      (year: number): number => initialAmount * Math.pow(1 - response.total.standardDeviation, year),
     );
   } else {
     response.graph.pessimisticEvolution = Array(NUMBER_OF_YEARS).fill(0);
