@@ -224,33 +224,23 @@ const computeChatbotResponse = (
   response.total.rateReturn = computePortfolioAnnualRateReturn(monthlyRateReturn);
   response.total.standardDeviation = computePortfolioAnnualStandardDeviation(portfolioAllocation);
 
-  if (1 + response.total.rateReturn > 0) {
-    response.graph.meanEvolution = response.graph.years.map(
-      (year: number): number => initialAmount * Math.pow(1 + response.total.rateReturn, year),
-    );
-  } else {
-    response.graph.meanEvolution = Array(NUMBER_OF_YEARS).fill(0);
-    response.graph.meanEvolution[0] = initialAmount;
-  }
+  const initializeGraphs = (increaseValue: number): number[] => {
+    if (increaseValue > 0) {
+      return response.graph.years.map((year: number): number => initialAmount * Math.pow(increaseValue, year));
+    } else {
+      let evolution = Array(NUMBER_OF_YEARS).fill(0);
+      evolution[0] = initialAmount;
+      return evolution;
+    }
+  };
 
-  if (1 + response.total.rateReturn + response.total.standardDeviation > 0) {
-    response.graph.optimisticEvolution = response.graph.years.map(
-      (year: number): number =>
-        initialAmount * Math.pow(1 + response.total.rateReturn + response.total.standardDeviation, year),
-    );
-  } else {
-    response.graph.optimisticEvolution = Array(NUMBER_OF_YEARS).fill(0);
-    response.graph.optimisticEvolution[0] = initialAmount;
-  }
-
-  if (1 - response.total.standardDeviation > 0) {
-    response.graph.pessimisticEvolution = response.graph.years.map(
-      (year: number): number => initialAmount * Math.pow(1 - response.total.standardDeviation, year),
-    );
-  } else {
-    response.graph.pessimisticEvolution = Array(NUMBER_OF_YEARS).fill(0);
-    response.graph.pessimisticEvolution[0] = initialAmount;
-  }
+  response.graph.meanEvolution = initializeGraphs(1 + response.total.rateReturn);
+  response.graph.optimisticEvolution = initializeGraphs(
+    1 + response.total.rateReturn + response.total.standardDeviation,
+  );
+  response.graph.pessimisticEvolution = initializeGraphs(
+    1 + response.total.rateReturn - response.total.standardDeviation,
+  );
 
   response.portfolioContent = Array.from(
     portfolioAllocation,
