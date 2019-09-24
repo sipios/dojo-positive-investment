@@ -51,7 +51,11 @@ export class Chat extends Component<Props> {
           bubbleStyle={bubbleStyle}
 
           // TODO : Ajouter des étapes pour faire parler votre chatbot !
-          steps={[]}
+          steps={[{
+            id: 'intro',
+            message: 'Hey, bienvenue chez Positive Investment ! 😀',
+            end: true
+          }]}
         />
       </div>
     );
