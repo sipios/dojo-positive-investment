@@ -2,10 +2,8 @@ import { ChartData, ChartDataSets } from 'chart.js';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-import { Response } from '../types/types';
-
+// TODO : Définir les Props du composant
 interface Props {
-  graph: Response['graph'];
 }
 
 const DATA_SET_SAMPLE: ChartDataSets = {
@@ -36,7 +34,8 @@ export class LineChart extends React.Component<Props, ChartData> {
       {
         ...DATA_SET_SAMPLE,
         label: 'Evolution moyenne',
-        data: this.props.graph.meanEvolution.map(value => Number(value.toFixed(2))),
+        // TODO : Remplir data avec les props
+        data: [],
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
         pointBorderColor: 'rgba(75,192,192,1)',
@@ -46,7 +45,8 @@ export class LineChart extends React.Component<Props, ChartData> {
       {
         ...DATA_SET_SAMPLE,
         label: 'Evolution optimiste',
-        data: this.props.graph.optimisticEvolution.map(value => Number(value.toFixed(2))),
+        // TODO : Remplir data avec les props
+        data: [],
         backgroundColor: 'rgba(233, 62, 145, 0.4)',
         borderColor: 'rgba(233, 62, 145, 1)',
         pointBorderColor: 'rgba(233, 62, 145, 1)',
@@ -56,7 +56,8 @@ export class LineChart extends React.Component<Props, ChartData> {
       {
         ...DATA_SET_SAMPLE,
         label: 'Evolution pessimiste',
-        data: this.props.graph.pessimisticEvolution.map(value => Number(value.toFixed(2))),
+        // TODO : Remplir data avec les props
+        data: [],
         backgroundColor: 'rgba(0,204,102,0.4)',
         borderColor: 'rgba(0,204,102,1)',
         pointBorderColor: 'rgba(0,204,102,1)',
@@ -68,7 +69,8 @@ export class LineChart extends React.Component<Props, ChartData> {
     const currentYear = new Date().getFullYear();
 
     this.setState({
-      labels: this.props.graph.years.map(additionalYear => `${additionalYear + currentYear}`),
+      // TODO : Remplir labels avec les props
+      labels: [],
       datasets: newDatasets,
     });
   }
