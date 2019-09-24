@@ -35,7 +35,9 @@ export const LineChartCustomComponent = () => {
 
 export const OrderBookCustomComponent = () => {
   const initialInvestment = ChatService.getInstance().getInitialInvestment();
-  const portfolioContent = ChatService.getInstance().getPortfolioContent();
+  const portfolioContent = ChatService.getInstance()
+    .getPortfolioContent()
+    .filter(({ weight }) => weight > 0);
   return (
     <table className="order-book">
       <tbody>

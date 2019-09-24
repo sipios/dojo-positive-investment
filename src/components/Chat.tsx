@@ -6,6 +6,7 @@ import ChatBot from 'react-simple-chatbot';
 import computationEngine from '../computationEngine/engine';
 import { ChatService } from '../services/chatService';
 import { ExternalityName, UserChoice } from '../types/types';
+import { HIGH_RISK_VOLATILITY, MEDIUM_RISK_VOLATILITY, LOW_RISK_VOLATILITY } from '../computationEngine/constants';
 import {
   DoughnutChartCustomComponent,
   LineChartCustomComponent,
@@ -52,7 +53,9 @@ export class Chat extends Component<Props> {
       [ExternalityName.ENERGY]: Number(steps['energy-choice']['value']),
       [ExternalityName.DEVELOPMENT]: Number(steps['development-choice']['value']),
       // Fix library issue. steps['education-choice']['value'] is NaN if 0 is provided
-      [ExternalityName.EDUCATION]: Number(steps['education-choice']['value']) ? Number(steps['education-choice']['value']) : 0,
+      [ExternalityName.EDUCATION]: Number(steps['education-choice']['value'])
+        ? Number(steps['education-choice']['value'])
+        : 0,
     };
 
     const volatility = Number(steps['risk-choice']['value']);
@@ -110,17 +113,17 @@ export class Chat extends Component<Props> {
               id: 'risk-choice',
               options: [
                 {
-                  value: 0.0025,
+                  value: HIGH_RISK_VOLATILITY,
                   label: 'Risque élevé',
                   trigger: 'choice',
                 },
                 {
-                  value: 0.0001,
+                  value: MEDIUM_RISK_VOLATILITY,
                   label: 'Risque modéré',
                   trigger: 'choice',
                 },
                 {
-                  value: 0.000025,
+                  value: LOW_RISK_VOLATILITY,
                   label: 'Risque faible',
                   trigger: 'choice',
                 },
