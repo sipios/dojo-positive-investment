@@ -49,6 +49,7 @@ const computeCovarianceXY = (X: number[], Y: number[], expectationX: number, exp
     centeredX = X.map((value: number): number => value - expectationX);
     centeredY = Y.map((value: number): number => value - expectationY);
   }
+
   // TODO : Calculer la covariance entre deux tableaux
   const covarianceXY = 0;
 
@@ -60,7 +61,7 @@ const computeFundsRateReturnCovarianceMatrix = (rateReturnExpectationArray: Expe
     (fund: Fund): ExpectationArray => computeFundRateReturnHistory(fund),
   );
 
-  // TODO : Faire le calcul de la matrice de covariance
+  // TODO : Calculer la matrice de covariance en appelant `computeCovarianceXY`
   let covarianceMatrix: number[][] = [];
 
   return covarianceMatrix;
@@ -68,7 +69,7 @@ const computeFundsRateReturnCovarianceMatrix = (rateReturnExpectationArray: Expe
 
 const computeRateReturnExpectationMultiplierArray = (userChoice: UserChoice): ExpectationArray => {
   const getFundAdequationWithUserPreferenceFactor = (fund: Fund): number => {
-    // TODO : Calculer le facteur de préférence de l'utilisateur associé à un fond
+    // TODO : Calculer le facteur de préférence de l'utilisateur associé à un fonds
     return 0;
   };
 
@@ -81,7 +82,7 @@ const computeAdaptedExpectationArray = (
   rateReturnExpectationArray: ExpectationArray,
   rateReturnExpectationMultiplierArray: ExpectationArray,
 ): ExpectationArray => {
-  // TODO : Calculer l'espérance modifiée
+  // TODO : Calculer l'espérance modifiée : EAdaptée = EBase + FacteurAjustement * EBase
   return [];
 };
 
@@ -94,6 +95,13 @@ const computePortfolioAllocation = (
   const expectationMultiplierArray = computeRateReturnExpectationMultiplierArray(userChoice);
   const adaptedExpectationArray = computeAdaptedExpectationArray(expectationArray, expectationMultiplierArray);
 
+  /**
+   * TODO : Calculer la composition du portefeuille en appelant la méthode `meanVarianceOptimizationWeights` du module 'portfolio-application'
+   * en passant en option : {
+   *  optimizationMethod: 'maximumTargetVolatility',
+   *  constraints: { maxVolatility: maxVolatility },
+   * }
+   */
   const portfolioAllocation = [0];
 
   return portfolioAllocation;

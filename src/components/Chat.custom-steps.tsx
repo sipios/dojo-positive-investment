@@ -10,7 +10,7 @@ export const PortfolioSummaryComponent = () => {
 };
 
 export const DoughnutChartCustomComponent = () => {
-  // Récupérer les données sur la répartition des fonds et les passer en props au composant DoughnutChart
+  // TODO : Récupérer les données sur la répartition des fonds et les passer en props au composant DoughnutChart
 
   return (
     <div className="chart-wrapper">
@@ -20,7 +20,7 @@ export const DoughnutChartCustomComponent = () => {
 };
 
 export const LineChartCustomComponent = () => {
-  // Récupérer les données sur l'évolution de l'investissement de l'utilisateur et les passer en props au composant LineChart
+  // TODO : Récupérer les données sur l'évolution de l'investissement de l'utilisateur et les passer en props au composant LineChart
 
   return (
     <div className="chart-wrapper">
